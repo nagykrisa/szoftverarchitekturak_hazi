@@ -1,21 +1,25 @@
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
+var mongo = require('mongodb');
 
 http.createServer(function (req, res) {
-  fs.readFile('example_html.html', function(err, data) {
+  var q = url.parse(req.url, true);
+  openHTML( "./view" + q.pathname, res );
+  console.log("./view" + q.pathname); //returns '/default.htmv'
+}).listen(8080);
+
+console.log('Pelda alkalmazas elindult!');
+console.log('localhost:8080 on elerheto');
+
+function openHTML(filename = "./view/index.html", res){
+  fs.readFile( filename, function(err, data) {
+    if (err) {
+        res.writeHead(404, {'Content-Type': 'text/html'});
+        return res.end("404 Not Found" + "  Azt mondom nincs ilyen html file!"  + err);
+    }  
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write(data);
     res.end();
   });
-  var adr = req.url;
-  console.log(adr);
-  var q = url.parse(adr, true);
-  console.log(q.host); //returns 'localhost:8080'
-  console.log(q.pathname); //returns '/default.htm'
-  console.log(q.search); //returns '?year=2017&month=february'
-  var qdata = q.query; //returns an object: { year: 2017, month: 'february' }
-  console.log(qdata.month); //returns 'february'
-}).listen(8080);
-console.log('Pelda alkalmazas elindult!');
-console.log('localhost:8080 on elerheto');
+}
