@@ -3,19 +3,19 @@ var Model = require("./Base"),
 	model = new Model();
 
 var Storage_Model = model.extend({
-	getlist: function(callback, query) {
+	getlist_Storage: function(callback, query) {
 		this.collection("Storages").find(query || {}).toArray(callback);
 	},
 	//Only admin functions
     //later todo
-	remove: function(ID, callback) {
+	remove_Storage: function(ID, callback) {
 		this.collection("Storages").findAndModify({ID: ID}, [], {}, {remove: true}, callback);
 	},
-	insert: function(data, callback) {
+	insert_Storage: function(data, callback) {
 		data.ID = crypto.randomBytes(20).toString('hex'); 
 		this.collection("Storages").insert(data, {}, callback || function(){ });
 	},
-	update: function(data, callback) {
+	update_Storage: function(data, callback) {
 		this.collection("Storages").update({ID: data.ID}, data, {}, callback || function(){ });	
 	}
 });
