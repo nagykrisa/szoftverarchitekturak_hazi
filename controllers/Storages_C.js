@@ -7,38 +7,95 @@ module.exports = BaseController.extend({
 	run: function(req, res, next) {
 		model.setDB(req.db);
 		var self = this;
-		this.getContent(function() {
-			var v = new View(res, 'management');
-			v.render(self.content);
-		})
+		req.session.save();
+		var v = new View(res, 'management');
+		self.del(req, function() {
+			self.form(req, res, function(formMarkup) {
+				self.getContent(req,req,function(headMarkup, rowMarkup) {
+					v.render({
+						mode_form_header : 'Form of Storages',
+						model_form_template: formMarkup,
+						content_header : 'List of Storages',
+						content_table_header: headMarkup,
+						content_table_row: rowMarkup
+
+					});
+				});
+			});
+		});
     },
     //todo getcontent
-	getContent: function(callback) {
+	getContent: function(req,res,callback) {
 		var self = this;
 		this.content = {};
 		model.getlist_Storage(function(err, records) {
-			self.content.content_header = "List of Storages"
-			self.content.content_table_header = "<tr>\
+			var head_row  = "<tr>\
 				<th>ID</th>\
 				<th>Name</th>\
 				<th>Longitude</th>\
 				<th>Latitude</th>\
 			  </tr>";
 			var length = records.length;
-			var content_table_row = '';
+			var table_row = '';
 			records.forEach( function(element){
-				content_table_row += '<tr>';
-				content_table_row += '\
+				table_row += '<tr>';
+				table_row += '\
 					<td>'+ element._id +'</td>\
 					<td>'+ element.name +'</td>\
 					<td>'+ element.longitude +'</td>\
 					<td>'+ element.latitude +'</td>\
 				';
-				content_table_row+= '</tr>';
+				table_row+= '</tr>';
 			});
-		    self.content.content_table_row = content_table_row;
-		    callback();
+			callback(head_row,table_row);
 		}, {});
+	},
+	form: function(req, res, callback) {
+		var returnTheForm = function() {
+			if(req.query && req.query.action === "edit" && req.query.id) {
+				model.getlist(function(err, records) {
+					if(records.length > 0) {
+						var record = records[0];
+						res.render('storage-record', {
+							ID: record.ID,
+							name: record.name,
+							longitude: record.longitude,
+							latitude: record.latitude	
+						}, function(err, html) {
+							callback(html);
+						});
+					} else {
+						res.render('storage-record', {}, function(err, html) {
+							callback(html);
+						});
+					}
+				}, {ID: req.query.id});
+			} else {
+				res.render('storage-record', {}, function(err, html) {
+					callback(html);
+				});
+			}
+		}
+		
+		if(req.body && req.body.formsubmitted && req.body.formsubmitted === 'yes') {
+			var data = {
+				name: req.body.name,
+				longitude: parseFloat(req.body.longitude),
+				latitude: parseFloat(req.body.latitude),
+			}
+			model[req.body.ID != '' ? 'update_Storage' : 'insert_Storage'](data, function(err, objects) {
+				returnTheForm();
+			});
+		} else {
+			returnTheForm();
+		}
+	},
+	del: function(req, callback) {
+		if(req.query && req.query.action === "delete_Storage" && req.query.id) {
+			model.remove(req.query.id, callback);
+		} else {
+			callback();
+		}
 	},
 	model_form_template: function(req, res,callback){
 		
