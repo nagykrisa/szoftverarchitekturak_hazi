@@ -14,7 +14,7 @@
 						<img src="/images/logo.png" alt="FastDelivery">
 					</a>
                     <ul class="menu">
-                        <li><a href="/">Home</a></li>
+                        <li><a href="/">Calculation</a></li>
                         <li><a href="/packages">Package Management</a></li>
                         <li><a href="/trucks">Truck Management</a></li>
                         <li><a href="/storages">Storage Management</a></li>
@@ -24,13 +24,11 @@
 			</nav>
             
             <!-- home page -->
-            <div class="home">
-                <h1>Fast As Hell <small>The fastest-growing company of 2012</small></h1>
+            <div class="calculation">
+                <h1>Calculation Model <small>Make your choices</small></h1>
                 <div class="teaser">
                     <div class="content">
                         <img src="/images/home-teaser-image.jpg" alt="" class="home-teaser-image" />
-                        <h2>{{bannerTitle}}</h2>
-                        <p>{{bannerText}}</p>
                         <div class="home-teaser-icons">
                             <a href="#"><img src="/images/home-teaser-icon1.png" alt=""/></a>
                             <a href="#"><img src="/images/home-teaser-icon2.png" alt=""/></a>
@@ -40,11 +38,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="blog-articles">
-                    <div class="content">
-                        {{{blogArticles}}}
-                    </div>
-                    <br class="clear" />
+                <div class="Model_Table">
+                    {{{model_table_row}}}
                 </div>
             </div>
             
