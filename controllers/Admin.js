@@ -1,8 +1,7 @@
 var BaseController = require("./Base"),
 	View = require("../views/Base"),
 	model = new (require("../models/Storage_Model")),
-	crypto = require("crypto"),
-	fs = require("fs");
+	crypto = require("crypto")
 
 module.exports = BaseController.extend({ 
 	name: "Admin",
@@ -46,26 +45,21 @@ module.exports = BaseController.extend({
 		);
 	},
 	list: function(callback) {
-		model.getlist(function(err, records) {
+		model.getlist_Storage(function(err, records) {
 			var markup = '<table>';
 			markup += '\
 				<tr>\
-					<td><strong>type</strong></td>\
-					<td><strong>title</strong></td>\
-					<td><strong>picture</strong></td>\
-					<td><strong>actions</strong></td>\
+					<td><strong>Name</strong></td>\
+					<td><strong>Longitude</strong></td>\
+					<td><strong>Latitude</strong></td>\
 				</tr>\
 			';
 			for(var i=0; record = records[i]; i++) {
 				markup += '\
 				<tr>\
-					<td>' + record.type + '</td>\
-					<td>' + record.title + '</td>\
-					<td><img class="list-picture" src="' + record.picture + '" /></td>\
-					<td>\
-						<a href="/admin?action=delete&id=' + record.ID + '">delete</a>&nbsp;&nbsp;\
-						<a href="/admin?action=edit&id=' + record.ID + '">edit</a>\
-					</td>\
+					<td>' + record.name + '</td>\
+					<td>' + record.longitude + '</td>\
+					<td>' + record.latitude + '</td>\
 				</tr>\
 			';
 			}
@@ -79,24 +73,22 @@ module.exports = BaseController.extend({
 				model.getlist(function(err, records) {
 					if(records.length > 0) {
 						var record = records[0];
-						res.render('admin-record', {
+						res.render('storage-record', {
 							ID: record.ID,
-							text: record.text,
-							title: record.title,
-							type: '<option value="' + record.type + '">' + record.type + '</option>',
-							picture: record.picture,
-							pictureTag: record.picture != '' ? '<img class="list-picture" src="' + record.picture + '" />' : ''
+							name: record.name,
+							longitude: record.longitude,
+							latitude: record.latitude	
 						}, function(err, html) {
 							callback(html);
 						});
 					} else {
-						res.render('admin-record', {}, function(err, html) {
+						res.render('storage-record', {}, function(err, html) {
 							callback(html);
 						});
 					}
 				}, {ID: req.query.id});
 			} else {
-				res.render('admin-record', {}, function(err, html) {
+				res.render('storage-record', {}, function(err, html) {
 					callback(html);
 				});
 			}
@@ -104,13 +96,11 @@ module.exports = BaseController.extend({
 		
 		if(req.body && req.body.formsubmitted && req.body.formsubmitted === 'yes') {
 			var data = {
-				title: req.body.title,
-				text: req.body.text,
-				type: req.body.type,
-				picture: this.handleFileUpload(req),
-				ID: req.body.ID
+				name: req.body.name,
+				longitude: parseFloat(req.body.longitude),
+				latitude: parseFloat(req.body.latitude),
 			}
-			model[req.body.ID != '' ? 'update' : 'insert'](data, function(err, objects) {
+			model[req.body.ID != '' ? 'update_Storage' : 'insert_Storage'](data, function(err, objects) {
 				returnTheForm();
 			});
 		} else {
@@ -118,22 +108,10 @@ module.exports = BaseController.extend({
 		}
 	},
 	del: function(req, callback) {
-		if(req.query && req.query.action === "delete" && req.query.id) {
+		if(req.query && req.query.action === "delete_Storage" && req.query.id) {
 			model.remove(req.query.id, callback);
 		} else {
 			callback();
 		}
-	},
-	handleFileUpload: function(req) {
-		if(!req.files || !req.files.picture || !req.files.picture.name) {
-			return req.body.currentPicture || '';
-		}
-		var data = fs.readFileSync(req.files.picture.path);
-		var fileName = req.files.picture.name;
-		var uid = crypto.randomBytes(10).toString('hex');
-		var dir = __dirname + "/../public/uploads/" + uid;
-		fs.mkdirSync(dir, '0777');
-		fs.writeFileSync(dir + "/" + fileName, data);
-		return '/uploads/' + uid + "/" + fileName;
 	}
 });
