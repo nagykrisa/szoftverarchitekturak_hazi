@@ -19,27 +19,16 @@
                         <li><a href="/trucks">Truck Management</a></li>
                         <li><a href="/storages">Storage Management</a></li>
                     </ul>
-                    <br class="clear" />
 				</div>
 			</nav>
             
             <!-- home page -->
             <div class="calculation">
                 <h1>Calculation Model <small>Make your choices</small></h1>
-                <div class="teaser">
-                    <div class="content">
-                        <img src="/images/home-teaser-image.jpg" alt="" class="home-teaser-image" />
-                        <div class="home-teaser-icons">
-                            <a href="#"><img src="/images/home-teaser-icon1.png" alt=""/></a>
-                            <a href="#"><img src="/images/home-teaser-icon2.png" alt=""/></a>
-                            <a href="#"><img src="/images/home-teaser-icon3.png" alt=""/></a>
-                            <a href="#"><img src="/images/home-teaser-icon4.png" alt=""/></a>
-                            <br class="clear" />
-                        </div>
+                <div class="content">
+                    <div class="Model_Table">
+                        <h1>{{{yess}}}</h1>
                     </div>
-                </div>
-                <div class="Model_Table">
-                    {{{model_table_row}}}
                 </div>
             </div>
             

@@ -13,7 +13,7 @@ var express = require('express'),
 	Package_Management = require('./controllers/Packages_C.js'),
 	Storage_Management = require('./controllers/Storages_C.js'),
 	Truck_Management = require('./controllers/Trucks_C.js'),
-	uri="mongodb+srv://@szallitocluster-csfys.mongodb.net/test?retryWrites=true";
+	uri="mongodb+srv://nagykrisa:123412341234@szallitocluster-csfys.mongodb.net/test?retryWrites=true";
 // all environments
 // app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/templates');

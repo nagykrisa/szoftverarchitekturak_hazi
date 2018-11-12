@@ -13,34 +13,30 @@ module.exports = {
         truck_model.setDB(req.db);
         package_model.setDB(req.db);
         var self = this;
-        this.load_Storage_List(self,function(result){
-            self.Storage_List = result;
+        this.load_Package_List(self,function(self){
+            self.load_Storage_List(self,function(self){
+                self.load_Truck_List(self,function(self){  
+                    callback(self);
+                })
+            })
         });
-        this.load_Truck_List(self,function(result){
-            self.Truck_List = result;
-        });
-        this.load_Package_List(self,function(result){
-            self.Package_List = result;
-        });
-        //console.log("package:"+ self.Package_List.length + "   strorage:" +self.Storage_List.length + "    truck:"+ self.Truck_List.length  );
-        callback();
     },
     load_Storage_List: function(self,callback){
         storage_model.getlist_Storage(function(err, records) {
-            self.Storage_List = records;
-            callback();
+            self.Storage_List= records;
+            callback(self);
         }, {});
     },
     load_Truck_List: function(self,callback){
         truck_model.getlist_Truck(function(err, records) {
-            self.Storage_List = records;
-            callback();
+            self.Truck_List= records;
+            callback(self);
         }, {});
     },
     load_Package_List: function(self,callback){
         package_model.getlist_Package(function(err, records) {
-            self.Storage_List = records;
-            callback();
+            self.Package_List= records;
+            callback(self);
         }, {});
     },
     //szamolos algotirmusnak
@@ -48,9 +44,6 @@ module.exports = {
     //callbackbe kirajzoltatjuk az eredményt??
     make_calculation: function(){
         var self = this;
-        console.log(self.Storage_List.length);
-        console.log(self.Truck_List.length);
-        console.log(self.Package_List.length);
     }
 }
 
