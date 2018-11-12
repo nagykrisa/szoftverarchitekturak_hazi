@@ -14,7 +14,7 @@ module.exports = BaseController.extend({
 		});
 	},
 	getModelContent: function(result,callback) {
-		console.log(result.Storage_List);
+		//console.log(result.Storage_List);
 		this.content = {};
 		callback();
 	}

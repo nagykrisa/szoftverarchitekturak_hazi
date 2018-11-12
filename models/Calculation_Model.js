@@ -22,25 +22,25 @@ module.exports = {
         this.load_Package_List(self,function(result){
             self.Package_List = result;
         });
-        console.log("package:"+ self.Package_List.length + "   strorage:" +self.Storage_List.length + "    truck:"+ self.Truck_List.length  );
-        callback(self);
+        //console.log("package:"+ self.Package_List.length + "   strorage:" +self.Storage_List.length + "    truck:"+ self.Truck_List.length  );
+        callback();
     },
     load_Storage_List: function(self,callback){
         storage_model.getlist_Storage(function(err, records) {
             self.Storage_List = records;
-            callback(records);
+            callback();
         }, {});
     },
     load_Truck_List: function(self,callback){
         truck_model.getlist_Truck(function(err, records) {
             self.Storage_List = records;
-            callback(records);
+            callback();
         }, {});
     },
-    load_Package_List: function(callback){
+    load_Package_List: function(self,callback){
         package_model.getlist_Package(function(err, records) {
             self.Storage_List = records;
-            callback(records);
+            callback();
         }, {});
     },
     //szamolos algotirmusnak
