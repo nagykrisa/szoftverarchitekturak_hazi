@@ -45,5 +45,8 @@ module.exports = BaseController.extend({
 		    self.content.content_table_row = content_table_row;
 		    callback();
         }, {});
-    }
+	},
+	model_form_template: function(req, res,callback){
+		
+	}
 });

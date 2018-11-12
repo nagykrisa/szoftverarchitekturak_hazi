@@ -101,6 +101,7 @@ module.exports = BaseController.extend({
 				});
 			}
 		}
+		
 		if(req.body && req.body.formsubmitted && req.body.formsubmitted === 'yes') {
 			var data = {
 				title: req.body.title,

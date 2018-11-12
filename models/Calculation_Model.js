@@ -11,26 +11,34 @@ module.exports = {
         storage_model.setDB(req.db);
         truck_model.setDB(req.db);
         var self = this;
-        this.load_ST_List(function(records){
+        this.load_Storage_List(function(records){
             self.Storage_List= records;
         });
-        this.load_TR_List(function(records){
+        this.load_Truck_List(function(records){
             self.Truck_List = records;
+        });
+        this.load_Package_List(function(){
+            self.Truck_list = records;
         });
     }
     ,
-    load_ST_List: function(callback){
+    load_Storage_List: function(callback){
         var self = this;
         storage_model.getlist_Storage(function(err, records) {
            callback(records);
         }, {});
     },
-    load_TR_List: function(callback){
+    load_Truck_List: function(callback){
         var self = this;
         truck_model.getlist_Truck(function(err, records) {
             callback(records);
         }, {});
-        
+    },
+    load_Package_List: function(callback){
+        var self = this;
+        truck_model.getlist_Truck(function(err, records) {
+            callback(records);
+        }, {});
     },
     //szamolos algotirmusnak
     //databan beadjuk a packageket
