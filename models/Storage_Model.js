@@ -12,7 +12,6 @@ var Storage_Model = model.extend({
 		this.collection("Storages").findAndModify({ID: ID}, [], {}, {remove: true}, callback);
 	},
 	insert_Storage: function(data, callback) {
-		data.ID = crypto.randomBytes(20).toString('hex'); 
 		this.collection("Storages").insert(data, {}, callback || function(){ });
 	},
 	update_Storage: function(data, callback) {

@@ -17,7 +17,7 @@ module.exports = {
         this.load_Truck_List(function(records){
             self.Truck_List = records;
         });
-        this.load_Package_List(function(){
+        this.load_Package_List(function(records){
             self.Truck_list = records;
         });
     }

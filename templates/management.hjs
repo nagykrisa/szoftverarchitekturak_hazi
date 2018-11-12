@@ -29,8 +29,7 @@
                     <div class="center-box">
                         <div class="row">
                             <div class="one-half">
-                                <h2>Itt lehet majd uj elemeket hozzadadni</h2>
-                                <h2>{{mode_form_header}}</h2>
+                                <h2>{{{mode_form_header}}}</h2>
                             <!-- ide jön az adat beadós form meg nem tudjuk hogy lesz-->
                                 {{{model_form_template}}}
                             </div>
@@ -54,10 +53,6 @@
                 </div>
             </section>
 
-           
-                  
-                 
-            
             <!-- footer -->
             <div class="footer">
                 <div class="content">

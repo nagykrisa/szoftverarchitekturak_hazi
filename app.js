@@ -15,7 +15,8 @@ var express = require('express'),
 	Truck_Management = require('./controllers/Trucks_C.js'),
 	Request_Table = require('./controllers/Request_Table'),
 	Result_Table = require('./controllers/Result_Table'),
-	uri="mongodb:/@szallitocluster-shard-00-00-csfys.mongodb.net:27017,szallitocluster-shard-00-01-csfys.mongodb.net:27017,szallitocluster-shard-00-02-csfys.mongodb.net:27017/test?ssl=true&replicaSet=SzallitoCluster-shard-0&authSource=admin&retryWrites=true";
+	uri="mongodb+srv:/@szallitocluster-csfys.mongodb.net/test?retryWrites=true";
+
 // all environments
 // app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/templates');
