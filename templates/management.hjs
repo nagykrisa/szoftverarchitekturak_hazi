@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{ title }}</title>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+	</head>
+	<body>
+		<div class="container">
+            
+            <!-- navigation -->
+			<nav>
+				<div class="content">
+					<a href="/" class="logo">
+						<img src="/images/logo.png" alt="FastDelivery">
+					</a>
+                    <ul class="menu">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/packages">Package Management</a></li>
+                        <li><a href="/trucks">Truck Management</a></li>
+                        <li><a href="/storages">Storage Management</a></li>
+                    </ul>
+                    <br class="clear" />
+				</div>
+			</nav>
+            
+            <!-- management page section -->
+            <section class="management">
+                <div class="content">
+                    <div class="center-box">
+                        <div class="row">
+                            <div class="one-half">
+                                <h2>Itt lehet majd uj elemeket hozzadadni</h2>
+                                <h2>{{input_header}}</h2>
+                            <!-- ide jön az adat beadós form meg nem tudjuk hogy lesz-->
+                                    {{input}}
+                            </div>
+                            <div class="one-half">
+                                <h2>{{{content_header}}}</h2>
+                            <!-- ide jön az adat kiiras-->
+                                <table class="content_table">
+                                    <thead>
+                                      <tr>
+                                        {{{content_table_header}}}
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{{content_table_row}}}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+           
+                  
+                 
+            
+            <!-- footer -->
+            <div class="footer">
+                <div class="content">
+                    fast delivery &copy; 2013
+                </div>
+            </div>
+            
+		</div>
+	</body>
+</html>

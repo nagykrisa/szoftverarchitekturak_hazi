@@ -200,3 +200,35 @@ nav .menu li a:hover {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
+.management .row {
+  margin: 0 -20px;
+}
+.management .one-half {
+  float: left;
+  min-height: 500px;
+  width: 50%;
+}
+.management .content_table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+}
+.management .content_table tbody {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  height: 400px;
+}
+.management .content_table thead tr {
+  display: block;
+}
+.management .content_table thead {
+  background: sandybrown;
+  color: #000;
+}
+.management .content_table th,
+.management .content_table td {
+  padding: 5px;
+  text-align: left;
+  width: 200px;
+}
