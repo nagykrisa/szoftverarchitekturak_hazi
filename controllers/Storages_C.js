@@ -14,7 +14,7 @@ module.exports = BaseController.extend({
 				self.getContent(req,req,function(headMarkup, rowMarkup) {
 					v.render({
 						title: 'Storage Management',
-						mode_form_header : 'Form of Storages',
+						model_form_header : 'Form of Storages',
 						model_form_template: formMarkup,
 						content_header : 'List of Storages',
 						content_table_header: headMarkup,

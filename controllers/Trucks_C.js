@@ -13,8 +13,8 @@ module.exports = BaseController.extend({
 			self.form(req, res, function(formMarkup) {
 				self.getContent(req,req,function(headMarkup, rowMarkup) {
 					v.render({
-						title: 'TrucksS Management',
-						mode_form_header : 'Form of Trucks',
+						title: 'Trucks Management',
+						model_form_header : 'Form of Trucks',
 						model_form_template: formMarkup,
 						content_header : 'List of Trucks',
 						content_table_header: headMarkup,
