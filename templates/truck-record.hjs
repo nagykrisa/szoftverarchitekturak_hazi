@@ -8,7 +8,7 @@
     Maximum Volume(m&sup3;):<br />
 	<input type="number" name="volume_max" value="{{volume_max}}" step= any /><br />
     Maximum Load(kg):<br />
-	<input type="number" name="load_max:" value="{{load_max:}}" step= any /><br />
+	<input type="number" name="load_max:" value="{{load_max}}" step= any /><br />
 	<br />
 	<input type="submit" value="submit" />
 </form>
