@@ -13,7 +13,7 @@ module.exports = BaseController.extend({
 			self.form(req, res, function(formMarkup) {
 				self.getContent(req,req,function(headMarkup, rowMarkup) {
 					v.render({
-						mode_form_header : 'Form of Storages',
+						model_form_header : 'Form of Storages',
 						model_form_template: formMarkup,
 						content_header : 'List of Storages',
 						content_table_header: headMarkup,
@@ -30,22 +30,24 @@ module.exports = BaseController.extend({
 		this.content = {};
 		model.getlist_Storage(function(err, records) {
 			var head_row  = "<tr>\
-				<th>ID</th>\
+				<th>Num</th>\
 				<th>Name</th>\
 				<th>Longitude</th>\
 				<th>Latitude</th>\
 			  </tr>";
 			var length = records.length;
 			var table_row = '';
+			var index = 1;
 			records.forEach( function(element){
 				table_row += '<tr>';
 				table_row += '\
-					<td>'+ element._id +'</td>\
+					<td>'+ index +'</td>\
 					<td>'+ element.name +'</td>\
 					<td>'+ element.longitude +'</td>\
 					<td>'+ element.latitude +'</td>\
 				';
 				table_row+= '</tr>';
+				index++;
 			});
 			callback(head_row,table_row);
 		}, {});

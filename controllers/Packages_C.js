@@ -22,7 +22,7 @@ module.exports = BaseController.extend({
 		model.getlist_Package(function(err, records) {
 			self.content.content_header = "List of Packages"
 			self.content.content_table_header = "<tr>\
-				<th>ID</th>\
+				<th>Num</th>\
 				<th>Name</th>\
 				<th>From</th>\
 				<th>To</th>\
@@ -30,12 +30,12 @@ module.exports = BaseController.extend({
 				<th>Volume</th>\
 				<th>Deadline</th>\
 			  </tr>";
-			var length = records.length;
 			var content_table_row = '';
+			var index = 1;
 			records.forEach( function(element){
 				content_table_row += '<tr>';
 				content_table_row += '\
-					<td>'+ element._id +'</td>\
+					<td>'+ index +'</td>\
 					<td>'+ element.name +'</td>\
 					<td>'+ element.from +'</td>\
 					<td>'+ element.to +'</td>\
@@ -44,6 +44,7 @@ module.exports = BaseController.extend({
 					<td>'+ element.deadline +'</td>\
 				';
 				content_table_row+= '</tr>';
+				index++;
 			});
 			self.content.content_table_row = content_table_row;
 			self.model_form_template(callback());

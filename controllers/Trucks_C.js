@@ -19,24 +19,25 @@ module.exports = BaseController.extend({
 		model.getlist_Truck(function(err, records) {
 			self.content.content_header = "List of Trucks"
 			self.content.content_table_header = "<tr>\
-				<th>ID</th>\
+				<th>Num</th>\
 				<th>Current_Location</th>\
 				<th>Speed_max</th>\
 				<th>Volume_max</th>\
 				<th>Load_max</th>\
 			  </tr>";
-			var length = records.length;
 			var content_table_row = '';
+			var index = 1;
 			records.forEach( function(element){
 				content_table_row += '<tr>';
 				content_table_row += '\
-					<td>'+ element._id +'</td>\
+					<td>'+ index +'</td>\
 					<td>'+ element.current_location +'</td>\
 					<td>'+ element.speed_max +'</td>\
 					<td>'+ element.volume_max +'</td>\
 					<td>'+ element.load_max +'</td>\
 				';
 				content_table_row+= '</tr>';
+				index++;
 			});
 		    self.content.content_table_row = content_table_row;
 		    callback();
