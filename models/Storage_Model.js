@@ -1,5 +1,4 @@
 var Model = require("./Base"),
-	crypto = require("crypto"),
 	model = new Model();
 
 var Storage_Model = model.extend({

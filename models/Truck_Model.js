@@ -1,5 +1,4 @@
 var Model = require("./Base"),
-	crypto = require("crypto"),
     model = new Model();
 
 var Truck_Model = model.extend({
@@ -12,7 +11,6 @@ var Truck_Model = model.extend({
         this.collection("Trucks").findAndModify({ID: ID}, [], {}, {remove: true}, callback);
     },
     insert_Truck: function(data, callback) {
-        data.ID = crypto.randomBytes(20).toString('hex'); 
         this.collection("Trucks").insert(data, {}, callback || function(){ });
     },
     update_Truck: function(data, callback) {
