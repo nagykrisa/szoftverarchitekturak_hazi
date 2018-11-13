@@ -2,16 +2,16 @@
 	<input type="hidden" name="formsubmitted" value="yes">
 	<input type="hidden" name="ID" value="{{ID}}">
 	Name:<br />
-	<input type="text" name="name" value="{{name}}" /><br />
+	<input type="text" name="name" value="{{name}}" required/><br />
 	From:<br />
-	<input type="text" name="from" value="{{from}}" /><br />
+	<input type="text" name="from" value="{{from}}" required/><br />
     To:<br />
-	<input type="text" name="to" value="{{to}}" /><br />
+	<input type="text" name="to" value="{{to}}" required/><br />
     Mass(kg):<br />
-	<input type="number" name="mass" value="{{mass}}" /><br />
+	<input type="number" name="mass" value="{{mass}}" required/><br />
     Volume(m&sup3;):<br />
-	<input type="number" name="volume" value="{{volume}}"/><br />
+	<input type="number" name="volume" value="{{volume}}"required/><br />
     Deadline(h):<br />
-	<input type="number" name="deadline" value="{{deadline}}" min = "0" max = "24"/><br /><br />
+	<input type="number" name="deadline" value="{{deadline}}" min = "0" max = "24"required/><br /><br />
 	<input type="submit" value="submit" />
 </form>

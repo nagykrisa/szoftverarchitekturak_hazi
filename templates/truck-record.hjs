@@ -2,13 +2,13 @@
 	<input type="hidden" name="formsubmitted" value="yes">
 	<input type="hidden" name="ID" value="{{ID}}">
 	Current Location:<br />
-	<input type="text" name="current_location" value="{{namcurrent_locatione}}" /><br />
+	<input type="text" name="current_location" value="{{namcurrent_locatione}}" required /><br />
     Maximum Speed(km/h):<br />
-	<input type="number" name="speed_max" value="{{speed_max}}" step= any /><br />
+	<input type="number" name="speed_max" value="{{speed_max}}" step= any required/><br />
     Maximum Volume(m&sup3;):<br />
-	<input type="number" name="volume_max" value="{{volume_max}}" step= any /><br />
+	<input type="number" name="volume_max" value="{{volume_max}}" step= any required/><br />
     Maximum Load(kg):<br />
-	<input type="number" name="load_max:" value="{{load_max:}}" step= any /><br />
+	<input type="number" name="load_max:" value="{{load_max}}" step= any required/><br />
 	<br />
 	<input type="submit" value="submit" />
 </form>
