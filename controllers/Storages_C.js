@@ -13,7 +13,8 @@ module.exports = BaseController.extend({
 			self.form(req, res, function(formMarkup) {
 				self.getContent(req,req,function(headMarkup, rowMarkup) {
 					v.render({
-						model_form_header : 'Form of Storages',
+						title: 'Storage Management',
+						mode_form_header : 'Form of Storages',
 						model_form_template: formMarkup,
 						content_header : 'List of Storages',
 						content_table_header: headMarkup,
@@ -97,8 +98,5 @@ module.exports = BaseController.extend({
 		} else {
 			callback();
 		}
-	},
-	model_form_template: function(req, res,callback){
-		
 	}
 });

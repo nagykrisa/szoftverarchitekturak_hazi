@@ -1,6 +1,5 @@
 <form action="/storages" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="formsubmitted" value="yes">
-	<input type="hidden" name="currentPicture" value="{{picture}}">
 	<input type="hidden" name="ID" value="{{ID}}">
 	Name:<br />
 	<input type="text" name="name" value="{{name}}" /><br />

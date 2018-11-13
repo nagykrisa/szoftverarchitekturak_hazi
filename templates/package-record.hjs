@@ -1,6 +1,5 @@
-<form action="/package" method="post" enctype="multipart/form-data">
+<form action="/packages" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="formsubmitted" value="yes">
-	<input type="hidden" name="currentPicture" value="{{picture}}">
 	<input type="hidden" name="ID" value="{{ID}}">
 	Name:<br />
 	<input type="text" name="name" value="{{name}}" /><br />
@@ -8,11 +7,11 @@
 	<input type="text" name="from" value="{{from}}" /><br />
     To:<br />
 	<input type="text" name="to" value="{{to}}" /><br />
-    Mass:<br />
+    Mass(kg):<br />
 	<input type="number" name="mass" value="{{mass}}" /><br />
-    Volume:<br />
+    Volume(m&sup3;):<br />
 	<input type="number" name="volume" value="{{volume}}"/><br />
-    Deadline:<br />
-	<input type="date" name="deadline" value="{{deadline}}"/><br /><br />
+    Deadline(h):<br />
+	<input type="number" name="deadline" value="{{deadline}}" min = "0" max = "24"/><br /><br />
 	<input type="submit" value="submit" />
 </form>
