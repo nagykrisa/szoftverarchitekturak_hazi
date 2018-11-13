@@ -18,7 +18,6 @@ module.exports = BaseController.extend({
 						content_header : 'List of Storages',
 						content_table_header: headMarkup,
 						content_table_row: rowMarkup
-
 					});
 				});
 			});

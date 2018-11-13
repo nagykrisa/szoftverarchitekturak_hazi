@@ -69,8 +69,37 @@ nav .menu li a:hover {
   text-align: center;
   border-top: solid 2px #7f7f7f;
 }
-.calculation h1 {
-  font-size: 32px;
+.calculation .row {
+  margin: 0 -20px;
+}
+.calculation .one {
+  float: left;
+  min-height: 500px;
+  width: 100%;
+}
+.calculation .select_table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+}
+.calculation .select_table tbody {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  height: 400px;
+}
+.calculation .select_table thead tr {
+  display: block;
+}
+.calculation .select_table thead {
+  background: #976226;
+  color: #000;
+}
+.calculation .select_table th,
+.calculation .select_table td {
+  padding: 5px;
+  text-align: left;
+  width: 200px;
 }
 .admin {
   font-size: 16px;
