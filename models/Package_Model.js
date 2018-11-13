@@ -11,7 +11,7 @@ var Package_Model = model.extend({
 		this.collection("Packages").findAndModify({ID: ID}, [], {}, {remove: true}, callback);
 	},
 	insert_Package: function(data, callback) {
-		this.collection("Packages").insert(data, {}, callback || function(){ });
+		this.collection("Packages").insertOne(data, {}, callback || function(){ });
 	},
 	update_Package: function(data, callback) {
 		this.collection("Packages").update({ID: data.ID}, data, {}, callback || function(){ });	

@@ -1,11 +1,14 @@
 var BaseController = require("./Base"),
 	View = require("../views/Base"),
-	model = new (require("../models/Package_Model"));
+	package_model = new (require("../models/Package_Model"));
+	storage_model = new (require("../models/Storage_Model"));
+
 module.exports = BaseController.extend({ 
 	name: "Packages",
 	content: null,
 	run: function(req, res, next) {
-		model.setDB(req.db);
+		package_model.setDB(req.db);
+		storage_model.setDB(req.db);
 		var self = this;
 		req.session.save();
 		var v = new View(res, 'management');
@@ -29,7 +32,7 @@ module.exports = BaseController.extend({
 	getContent: function(req,res,callback) {
 		var self = this;
 		this.content = {};
-		model.getlist_Package(function(err, records) {
+		package_model.getlist_Package(function(err, records) {
 			var head_row = "<tr>\
 				<th>Num</th>\
 				<th>Name</th>\
@@ -61,11 +64,11 @@ module.exports = BaseController.extend({
 	form: function(req, res, callback) {
 		var returnTheForm = function() {
 			if(req.query && req.query.action === "edit" && req.query.id) {
-				model.getlist(function(err, records) {
+				package_model.getlist_Package(function(err, records) {
 					if(records.length > 0) {
 						var record = records[0];
 						res.render('package-record', {
-							ID: record.ID,
+							ID: record._id,
 							name: record.name,
 							from: record.from,
 							to: record.to,
@@ -82,9 +85,18 @@ module.exports = BaseController.extend({
 					}
 				}, {ID: req.query.id});
 			} else {
-				res.render('package-record', {}, function(err, html) {
-					callback(html);
-				});
+				var storage_list= '';
+				storage_model.getlist_Storage(function(err,records){
+					records.forEach(function(element){
+						storage_list += '<option value="'+ element.name+'">'+ element.name+'</option>'
+					});
+					res.render('package-record', {
+						from: storage_list,
+						to: storage_list
+					}, function(err, html) {
+						callback(html);
+					});
+				},{});
 			}
 		}
 		
@@ -97,18 +109,16 @@ module.exports = BaseController.extend({
 				volume: parseFloat(req.body.volume),
 				deadline: parseInt(req.body.deadline)
 			}
-			model[req.body.ID != '' ? 'update_Package' : 'insert_Package'](data, function(err, objects) {
+			package_model[req.body.ID != '' ? 'update_Package' : 'insert_Package'](data, function(err, objects) {
 				returnTheForm();
 			});
 		} else {
 			returnTheForm();
 		}
-
-		returnTheForm();
 	},
 	del: function(req, callback) {
 		if(req.query && req.query.action === "delete_Package" && req.query.id) {
-			model.remove(req.query.id, callback);
+			package_model.remove(req.query.id, callback);
 		} else {
 			callback();
 		}

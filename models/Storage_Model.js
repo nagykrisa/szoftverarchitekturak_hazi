@@ -11,7 +11,7 @@ var Storage_Model = model.extend({
 		this.collection("Storages").findAndModify({ID: ID}, [], {}, {remove: true}, callback);
 	},
 	insert_Storage: function(data, callback) {
-		this.collection("Storages").insert(data, {}, callback || function(){ });
+		this.collection("Storages").insertOne(data, {}, callback || function(){ });
 	},
 	update_Storage: function(data, callback) {
 		this.collection("Storages").update({ID: data.ID}, data, {}, callback || function(){ });	

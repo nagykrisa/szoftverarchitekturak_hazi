@@ -1,11 +1,13 @@
 var BaseController = require("./Base"),
 	View = require("../views/Base"),
-	model = new (require("../models/Truck_Model"))
+	truck_model = new (require("../models/Truck_Model"))
+	storage_model = new (require("../models/Storage_Model"))
 module.exports = BaseController.extend({ 
 	name: "Trucks",
 	content: null,
 	run: function(req, res, next) {
-		model.setDB(req.db);
+		truck_model.setDB(req.db);
+		storage_model.setDB(req.db);
 		var self = this;
 		req.session.save();
 		var v = new View(res, 'management');
@@ -29,7 +31,7 @@ module.exports = BaseController.extend({
 	getContent: function(req,res,callback) {
 		var self = this;
 		this.content = {};
-		model.getlist_Truck(function(err, records) {
+		truck_model.getlist_Truck(function(err, records) {
 			var head_row  = "<tr>\
 				<th>Num</th>\
 				<th>Current_Location</th>\
@@ -57,15 +59,15 @@ module.exports = BaseController.extend({
 	form: function(req, res, callback) {
 		var returnTheForm = function() {
 			if(req.query && req.query.action === "edit" && req.query.id) {
-				model.getlist(function(err, records) {
+				truck_model.getlist_Truck(function(err, records) {
 					if(records.length > 0) {
 						var record = records[0];
 						res.render('truck-record', {
-							ID: record.ID,
+							ID: record._id,
 							current_location: record.current_location,
-							speed_max: record.speed_max,
-							volume_max: record.volume_max,
-							load_max: record.load_max
+							speed_max: parseFloat(record.speed_max),
+							volume_max: parseFloat(record.volume_max),
+							load_max: parseFloat(record.load_max)
 						}, function(err, html) {
 							callback(html);
 						});
@@ -76,9 +78,17 @@ module.exports = BaseController.extend({
 					}
 				}, {ID: req.query.id});
 			} else {
-				res.render('truck-record', {}, function(err, html) {
-					callback(html);
-				});
+				var storage_list= '';
+				storage_model.getlist_Storage(function(err,records){
+					records.forEach(function(element){
+						storage_list += '<option value="'+ element.name+'">'+ element.name+'</option>'
+					});
+					res.render('truck-record', {
+						current_location: storage_list
+					}, function(err, html) {
+						callback(html);
+					});
+				},{});
 			}
 		}
 		
@@ -89,7 +99,7 @@ module.exports = BaseController.extend({
 				volume_max: parseFloat(req.body.volume_max),
 				load_max: parseFloat(req.body.load_max)
 			}
-			model[req.body.ID != '' ? 'update_Truck' : 'insert_Truck'](data, function(err, objects) {
+			truck_model[req.body.ID != '' ? 'update_Truck' : 'insert_Truck'](data, function(err, objects) {
 				returnTheForm();
 			});
 		} else {
@@ -98,7 +108,7 @@ module.exports = BaseController.extend({
 	},
 	del: function(req, callback) {
 		if(req.query && req.query.action === "delete_Truck" && req.query.id) {
-			model.remove(req.query.id, callback);
+			truck_model.remove(req.query.id, callback);
 		} else {
 			callback();
 		}

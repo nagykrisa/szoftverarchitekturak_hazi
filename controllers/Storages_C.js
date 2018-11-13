@@ -55,14 +55,14 @@ module.exports = BaseController.extend({
 	form: function(req, res, callback) {
 		var returnTheForm = function() {
 			if(req.query && req.query.action === "edit" && req.query.id) {
-				model.getlist(function(err, records) {
+				model.getlist_Storage(function(err, records) {
 					if(records.length > 0) {
 						var record = records[0];
 						res.render('storage-record', {
-							ID: record.ID,
+							ID: record._id,
 							name: record.name,
-							longitude: record.longitude,
-							latitude: record.latitude	
+							longitude: parseFloat(record.longitude),
+							latitude: parseFloat(record.latitude)	
 						}, function(err, html) {
 							callback(html);
 						});

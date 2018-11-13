@@ -11,7 +11,7 @@ var Truck_Model = model.extend({
         this.collection("Trucks").findAndModify({ID: ID}, [], {}, {remove: true}, callback);
     },
     insert_Truck: function(data, callback) {
-        this.collection("Trucks").insert(data, {}, callback || function(){ });
+        this.collection("Trucks").insertOne(data, {}, callback || function(){ });
     },
     update_Truck: function(data, callback) {
         this.collection("Trucks").update({ID: data.ID}, data, {}, callback || function(){ });	
