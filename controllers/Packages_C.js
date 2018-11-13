@@ -30,8 +30,8 @@ module.exports = BaseController.extend({
 		var self = this;
 		this.content = {};
 		model.getlist_Package(function(err, records) {
-			var head_row  = "<tr>\
-				<th>ID</th>\
+			var head_row = "<tr>\
+				<th>Num</th>\
 				<th>Name</th>\
 				<th>From</th>\
 				<th>To</th>\
@@ -39,12 +39,12 @@ module.exports = BaseController.extend({
 				<th>Volume</th>\
 				<th>Deadline</th>\
 			  </tr>";
-			var length = records.length;
-			var  table_row = '';
+			var table_row = '';
+			var index = 1;
 			records.forEach( function(element){
-				 table_row += '<tr>';
-				 table_row += '\
-					<td>'+ element._id +'</td>\
+				table_row += '<tr>';
+				table_row += '\
+					<td>'+ index +'</td>\
 					<td>'+ element.name +'</td>\
 					<td>'+ element.from +'</td>\
 					<td>'+ element.to +'</td>\
@@ -52,7 +52,8 @@ module.exports = BaseController.extend({
 					<td>'+ element.volume +'</td>\
 					<td>'+ element.deadline +'</td>\
 				';
-				 table_row+= '</tr>';
+				table_row+= '</tr>';
+				index++;
 			});
 			callback(head_row,table_row);
         }, {});

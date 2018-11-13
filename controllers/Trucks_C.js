@@ -30,25 +30,26 @@ module.exports = BaseController.extend({
 		var self = this;
 		this.content = {};
 		model.getlist_Truck(function(err, records) {
-			var head_row = "<tr>\
-				<th>ID</th>\
+			var head_row  = "<tr>\
+				<th>Num</th>\
 				<th>Current_Location</th>\
 				<th>Speed_max</th>\
 				<th>Volume_max</th>\
 				<th>Load_max</th>\
 			  </tr>";
-			var length = records.length;
 			var table_row = '';
+			var index = 1;
 			records.forEach( function(element){
 				table_row += '<tr>';
 				table_row += '\
-					<td>'+ element._id +'</td>\
+					<td>'+ index +'</td>\
 					<td>'+ element.current_location +'</td>\
 					<td>'+ element.speed_max +'</td>\
 					<td>'+ element.volume_max +'</td>\
 					<td>'+ element.load_max +'</td>\
 				';
 				table_row+= '</tr>';
+				index++;
 			});
 		    callback(head_row,table_row);
 		}, {});

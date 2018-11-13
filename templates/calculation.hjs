@@ -23,14 +23,17 @@
 			</nav>
             
             <!-- home page -->
-            <div class="calculation">
-                <h1>Calculation Model <small>Make your choices</small></h1>
+             <section class="calculation">
                 <div class="content">
-                    <div class="Model_Table">
-                        <h1>{{{yess}}}</h1>
+                    <div class="center-box">
+                        <div class="row">
+                            <div class="one">
+                                {{select_form_template}}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
             
             <!-- footer -->
             <div class="footer">

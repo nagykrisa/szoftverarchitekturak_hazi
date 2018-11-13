@@ -15,7 +15,7 @@ module.exports = BaseController.extend({
 	},
 	getModelContent: function(result,callback) {
 		this.content = {};
-		//this.content.yess = result.Package_List[0].name;
+		this.content.yess = result.Package_List[0].name;
 		callback();
 	}
 });

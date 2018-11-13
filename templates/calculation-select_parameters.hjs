@@ -1,0 +1,23 @@
+<form action="/" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="formsubmitted" value="yes">
+
+    <table class="storage_table">
+        <thead>
+          <tr>
+            {{{select_table_header}}}
+          </tr>
+        </thead>
+        <tbody>
+            {{{select_table_row}}}
+        </tbody>
+    </table>
+    
+	Name:<br />
+	<input type="checkbox" name="vehicle" value="{{}}"><br />
+    Longitude:<br />
+	<input type="number" name="longitude" value="{{longitude}}" step= any /><br />
+    Latitude:<br />
+	<input type="number" name="latitude" value="{{latitude}}" step= any /><br />
+	<br />
+	<input type="submit" value="submit" />
+</form>
