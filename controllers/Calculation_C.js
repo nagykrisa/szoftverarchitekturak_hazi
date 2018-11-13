@@ -220,6 +220,9 @@ module.exports = BaseController.extend({
 		}else{
 			// 1. először a storage formot rendereltetjük ki.
 			//TODO ha egy elemet választtunk ki akkor nem tömb
+			calculation_storage_list=[];
+			calculation_truck_list=[];
+			calculation_package_list=[];
 			returnTheForm('storage'); 
 		}
 	}
