@@ -7,21 +7,30 @@ module.exports = BaseController.extend({
 	run: function(req, res, next) {
 		model.setDB(req.db);
 		var self = this;
-		this.model_form_template(req, res,function(html){
-			self.content.model_form_template= html;
-			self.getContent(function() {
-				var v = new View(res, 'management');
-				v.render(self.content);
-			})
-		})
+		req.session.save();
+		var v = new View(res, 'management');
+		self.del(req, function() {
+			self.form(req, res, function(formMarkup) {
+				self.getContent(req,req,function(headMarkup, rowMarkup) {
+					v.render({
+						title: 'Package Management',
+						mode_form_header : 'Form of Packages',
+						model_form_template: formMarkup,
+						content_header : 'List of Packages',
+						content_table_header: headMarkup,
+						content_table_row: rowMarkup
+
+					});
+				});
+			});
+		});
     },
     //todo getcontent
-	getContent: function(callback) {
+	getContent: function(req,res,callback) {
 		var self = this;
 		this.content = {};
 		model.getlist_Package(function(err, records) {
-			self.content.content_header = "List of Packages"
-			self.content.content_table_header = "<tr>\
+			var head_row  = "<tr>\
 				<th>ID</th>\
 				<th>Name</th>\
 				<th>From</th>\
@@ -31,10 +40,10 @@ module.exports = BaseController.extend({
 				<th>Deadline</th>\
 			  </tr>";
 			var length = records.length;
-			var content_table_row = '';
+			var  table_row = '';
 			records.forEach( function(element){
-				content_table_row += '<tr>';
-				content_table_row += '\
+				 table_row += '<tr>';
+				 table_row += '\
 					<td>'+ element._id +'</td>\
 					<td>'+ element.name +'</td>\
 					<td>'+ element.from +'</td>\
@@ -43,17 +52,13 @@ module.exports = BaseController.extend({
 					<td>'+ element.volume +'</td>\
 					<td>'+ element.deadline +'</td>\
 				';
-				content_table_row+= '</tr>';
+				 table_row+= '</tr>';
 			});
-			self.content.content_table_row = content_table_row;
-			self.model_form_template(callback());
+			callback(head_row,table_row);
         }, {});
 	},
-	model_form_template: function(req, res, callback) {
-		var self = this;
-		this.content = {};
+	form: function(req, res, callback) {
 		var returnTheForm = function() {
-			self.content.model_form_header = "List of Packages"
 			if(req.query && req.query.action === "edit" && req.query.id) {
 				model.getlist(function(err, records) {
 					if(records.length > 0) {
@@ -81,28 +86,27 @@ module.exports = BaseController.extend({
 				});
 			}
 		}
-		/*
+		
 		if(req.body && req.body.formsubmitted && req.body.formsubmitted === 'yes') {
 			var data = {
 				name: req.body.name,
 				from: req.body.from,
 				to: req.body.to,
-				mass: req.body.mass,
-				volume: req.body.volume,
-				deadline: req.body.deadline,
-				ID: req.body.ID
+				mass: parseFloat(req.body.mass),
+				volume: parseFloat(req.body.volume),
+				deadline: parseInt(req.body.deadline)
 			}
-			model[req.body.ID != '' ? 'update' : 'insert'](data, function(err, objects) {
+			model[req.body.ID != '' ? 'update_Package' : 'insert_Package'](data, function(err, objects) {
 				returnTheForm();
 			});
 		} else {
 			returnTheForm();
-		}*/
+		}
 
 		returnTheForm();
 	},
 	del: function(req, callback) {
-		if(req.query && req.query.action === "delete" && req.query.id) {
+		if(req.query && req.query.action === "delete_Package" && req.query.id) {
 			model.remove(req.query.id, callback);
 		} else {
 			callback();

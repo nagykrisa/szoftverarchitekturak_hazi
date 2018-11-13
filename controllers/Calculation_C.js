@@ -14,8 +14,8 @@ module.exports = BaseController.extend({
 		});
 	},
 	getModelContent: function(result,callback) {
-		//console.log(result.Storage_List);
 		this.content = {};
+		//this.content.yess = result.Package_List[0].name;
 		callback();
 	}
 });
