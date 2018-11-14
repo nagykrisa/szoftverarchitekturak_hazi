@@ -1,7 +1,5 @@
 
-/**
- * Module dependencies.
- */
+// Module dependencies.
 var express = require('express'),
 	http = require('http'), 
 	path = require('path'),
@@ -13,7 +11,7 @@ var express = require('express'),
 	Package_Management = require('./controllers/Packages_C.js'),
 	Storage_Management = require('./controllers/Storages_C.js'),
 	Truck_Management = require('./controllers/Trucks_C.js'),
-	uri="mongodb+srv://@szallitocluster-csfys.mongodb.net/test?retryWrites=true";
+	uri="mongodb+srv://" + config.mongo.host + ":" + config.mongo.key + "@szallitocluster-csfys.mongodb.net/test?retryWrites=true";
 // all environments
 // app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/templates');
@@ -31,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   	app.use(express.errorHandler());
 }
+// start
 MongoClient.connect(uri,{ useNewUrlParser: true }, function(err, client) {
 	if(err) {
 		console.log(err);
@@ -43,8 +42,6 @@ MongoClient.connect(uri,{ useNewUrlParser: true }, function(err, client) {
 		app.all('/admin*', attachDB, function(req, res, next) {
 			Admin.run(req, res, next);
 		});
-
-		//kezelői felviteli felületek kezdete	adatbázishoz (add,remove)
 		app.all('/packages', attachDB, function(req, res, next) {
 			Package_Management.run(req, res, next);
 		});	
@@ -54,19 +51,21 @@ MongoClient.connect(uri,{ useNewUrlParser: true }, function(err, client) {
 		app.all('/trucks', attachDB, function(req, res, next) {
 			Truck_Management.run(req, res, next);
 		});	
-		//kezelői felviteli felületek vége   adatbázishoz (add,remove)
-
-		//Modellek betöltése (számolás összerakása)
 		app.all('/', attachDB, function(req, res, next) {
 			Calculation.run(req, res, next);
 		});
-		//Modellek betöltése vége (számolás összerakása)
-
 		http.createServer(app).listen(config.port, function() {
 		  	console.log(
-		  		'Successfully connected to mongodb://' + config.mongo.host + ':' + config.mongo.port,
+		  		'Successfully connected to mongodb://' + config.mongo.host,
 		  		'\nExpress server listening on port ' + config.port
 		  	);
 		});
 	}
 });
+//TODOOO
+///Style:todo ---> formokat kozepre igatítani kulturalt formaban
+///           ---> Submit gombok középre és kulturalt formaban
+///           ---> Navbar sajat style kitalalasa
+///           ---> Tickbox-ra valami fancy nézet
+///           ---> footert rendberakni
+///Calculation---> BackGomb?()

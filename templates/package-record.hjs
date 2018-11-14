@@ -6,13 +6,11 @@
 	From:<br />
 		<select name="from">
 			{{{from}}}
-		</select>
-	<br />
+		</select><br />
     To:<br />
 		<select name="to">
 			{{{to}}}
-		</select>
-	<br />
+		</select><br />
     Mass(kg):<br />
 	<input type="number" name="mass" value="{{mass}}" required/><br />
     Volume(m&sup3;):<br />

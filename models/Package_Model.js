@@ -5,8 +5,6 @@ var Package_Model = model.extend({
 	getlist_Package: function(callback, query) {
 		this.collection("Packages").find(query || {}).toArray(callback);
 	},
-	//Only admin functions
-    //later todo
 	remove_Package: function(ID, callback) {
 		this.collection("Packages").findAndModify({_id: ID}, [], {}, {remove: true}, callback);
 	},

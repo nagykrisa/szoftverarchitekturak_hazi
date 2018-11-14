@@ -5,8 +5,6 @@ var Storage_Model = model.extend({
 	getlist_Storage: function(callback, query) {
 		this.collection("Storages").find(query || {}).toArray(callback);
 	},
-	//Only admin functions
-    //later todo
 	remove_Storage: function(ID, callback) {
 		this.collection("Storages").findAndModify({_id: ID}, [], {}, {remove: true}, callback);
 	},
@@ -18,7 +16,6 @@ var Storage_Model = model.extend({
 	}
 });
 module.exports = Storage_Model;
-
 
 //Storages:
 // _id:

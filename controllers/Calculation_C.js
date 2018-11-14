@@ -27,14 +27,14 @@ module.exports = BaseController.extend({
 				var records = calc_model.Storage_List;
 				if(records.length > 0) {
 					var header = "Select Your Storages"
-					var storage_select_table='<table class="select_table">\
+					var storage_select_table='<table class="select_table, container">\
 						<thead>';
 					storage_select_table += '\
 						<tr>\
-							<td><strong>Selected</strong></td>\
-							<td><strong>Name</strong></td>\
-							<td><strong>Longitude</strong></td>\
-							<td><strong>Latitude</strong></td>\
+							<th><h1>Selected</h1></th>\
+							<th><h1>Name</h1></th>\
+							<th><h1>Longitude</h1></th>\
+							<th><h1>Latitude</h1></th>\
 						</tr>\
 						</thead>\
 						<tbody>';
@@ -65,15 +65,15 @@ module.exports = BaseController.extend({
 				var records = calc_model.Truck_List;
 				if(records.length > 0) {
 					var header = "Select Your Trucks"
-					var truck_select_table='<table class="select_table">\
+					var truck_select_table='<table class="select_table, container">\
 						<thead>';
 					truck_select_table += '\
 						<tr>\
-							<td><strong>Selected</strong></td>\
-							<td><strong>Current Location</strong></td>\
-							<td><strong>Speed Max</strong></td>\
-							<td><strong>Volume Max</strong></td>\
-							<td><strong>Load Max</strong></td>\
+							<th><h1>Selected</h1></th>\
+							<th><h1>Current Location</h1></th>\
+							<th><h1>Speed Max</h1></th>\
+							<th><h1>Volume Max</h1></th>\
+							<th><h1>Load Max</h1></th>\
 						</tr>\
 						</thead>\
 						<tbody>';	
@@ -111,17 +111,17 @@ module.exports = BaseController.extend({
 				console.log(records);				
 				if(records.length > 0) {
 					var header = "Select Your Packages"
-					var package_select_table='<table class="select_table">\
+					var package_select_table='<table class="select_table, container">\
 						<thead>';
 					package_select_table += '\
 						<tr>\
-							<td><strong>Selected</strong></td>\
-							<td><strong>Name</strong></td>\
-							<td><strong>From</strong></td>\
-							<td><strong>To</strong></td>\
-							<td><strong>Mass</strong></td>\
-							<td><strong>Volume</strong></td>\
-							<td><strong>Deadline</strong></td>\
+							<th><h1>Selected</h1></th>\
+							<th><h1>Name</h1></th>\
+							<th><h1>From</h1></th>\
+							<th><h1>To</h1></th>\
+							<th><h1>Mass</h1></th>\
+							<th><h1>Volume</h1></th>\
+							<th><h1>Deadline</h1></th>\
 						</tr>\
 						</thead>\
 						<tbody>';

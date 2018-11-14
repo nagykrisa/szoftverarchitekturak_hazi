@@ -3,10 +3,11 @@
 	<head>
 		<title>{{ title }}</title>
 		<link rel='stylesheet' href='/stylesheets/style.css' />
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 	</head>
 	<body>
 		<div class="container">
-            
+    
             <!-- navigation -->
 			<nav>
 				<div class="content">
@@ -26,7 +27,7 @@
              <section class="calculation">
                 <div class="content">
                     <div class="center-box">
-                        <h2>{{select_header}}</h2>
+                        <h1><span class="magenta">{{select_header}}</span></h1>
                         <div class="row">
                             <div class="one">
                                 {{{select_form_template}}}
