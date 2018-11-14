@@ -8,13 +8,13 @@ var Truck_Model = model.extend({
     //Only admin functions
     //later todo
     remove_Truck: function(ID, callback) {
-        this.collection("Trucks").findAndModify({ID: ID}, [], {}, {remove: true}, callback);
+        this.collection("Trucks").findAndModify({_id: ID}, [], {}, {remove: true}, callback);
     },
     insert_Truck: function(data, callback) {
         this.collection("Trucks").insertOne(data, {}, callback || function(){ });
     },
-    update_Truck: function(data, callback) {
-        this.collection("Trucks").update({ID: data.ID}, data, {}, callback || function(){ });	
+    update_Truck: function(id, data, callback) {
+        this.collection("Trucks").updateOne({_id: id}, { $set: data }, {}, callback || function(){ });	
     }
 });
 module.exports = Truck_Model;

@@ -1,7 +1,8 @@
 var BaseController = require("./Base"),
 	View = require("../views/Base"),
 	truck_model = new (require("../models/Truck_Model"))
-	storage_model = new (require("../models/Storage_Model"))
+	storage_model = new (require("../models/Storage_Model"));
+	ObjectId = require('mongodb').ObjectID;
 module.exports = BaseController.extend({ 
 	name: "Trucks",
 	content: null,
@@ -27,7 +28,6 @@ module.exports = BaseController.extend({
 			});
 		});
     },
-    //todo getcontent
 	getContent: function(req,res,callback) {
 		var self = this;
 		this.content = {};
@@ -38,6 +38,7 @@ module.exports = BaseController.extend({
 				<th>Speed_max</th>\
 				<th>Volume_max</th>\
 				<th>Load_max</th>\
+				<th></th>\
 			  </tr>";
 			var table_row = '';
 			var index = 1;
@@ -49,6 +50,10 @@ module.exports = BaseController.extend({
 					<td>'+ element.speed_max +'</td>\
 					<td>'+ element.volume_max +'</td>\
 					<td>'+ element.load_max +'</td>\
+					<td>\
+						<a href="/trucks?action=delete&id=' + element._id + '">delete</a>&nbsp;&nbsp;\
+						<a href="/trucks?action=edit&id=' + element._id + '">edit</a>\
+					</td>\
 				';
 				table_row+= '</tr>';
 				index++;
@@ -62,21 +67,31 @@ module.exports = BaseController.extend({
 				truck_model.getlist_Truck(function(err, records) {
 					if(records.length > 0) {
 						var record = records[0];
-						res.render('truck-record', {
-							ID: record._id,
-							current_location: record.current_location,
-							speed_max: parseFloat(record.speed_max),
-							volume_max: parseFloat(record.volume_max),
-							load_max: parseFloat(record.load_max)
-						}, function(err, html) {
-							callback(html);
-						});
+						var storage_list= '';
+						storage_model.getlist_Storage(function(err,elements){
+							elements.forEach(function(element){
+								if(element.name == record.current_location)
+									storage_list += '<option value="'+ element.name+'" selected = "selected">'+ element.name+'</option>'
+								else
+									storage_list += '<option value="'+ element.name+'">'+ element.name+'</option>'
+							});
+							res.render('truck-record', {
+								_id: record._id,
+								current_location: storage_list,
+								speed_max: parseFloat(record.speed_max),
+								volume_max: parseFloat(record.volume_max),
+								load_max: parseFloat(record.load_max)
+							}, function(err, html) {
+								callback(html);
+							});
+						},{});
+
 					} else {
 						res.render('truck-record', {}, function(err, html) {
 							callback(html);
 						});
 					}
-				}, {ID: req.query.id});
+				}, {_id: ObjectId(req.query.id)});
 			} else {
 				var storage_list= '';
 				storage_model.getlist_Storage(function(err,records){
@@ -99,16 +114,22 @@ module.exports = BaseController.extend({
 				volume_max: parseFloat(req.body.volume_max),
 				load_max: parseFloat(req.body.load_max)
 			}
-			truck_model[req.body.ID != '' ? 'update_Truck' : 'insert_Truck'](data, function(err, objects) {
-				returnTheForm();
-			});
+			if(req.body._id != ''){
+				truck_model.update_Truck(ObjectId(req.body._id),data, function(err, objects) {
+					returnTheForm();
+				});
+			}else{
+				truck_model.insert_Truck(data, function(err, objects) {
+					returnTheForm();
+				});
+			}
 		} else {
 			returnTheForm();
 		}
 	},
 	del: function(req, callback) {
-		if(req.query && req.query.action === "delete_Truck" && req.query.id) {
-			truck_model.remove(req.query.id, callback);
+		if(req.query && req.query.action === "delete" && req.query.id) {
+			truck_model.remove_Truck(ObjectId(req.query.id), callback);
 		} else {
 			callback();
 		}

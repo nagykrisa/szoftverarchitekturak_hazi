@@ -8,13 +8,13 @@ var Storage_Model = model.extend({
 	//Only admin functions
     //later todo
 	remove_Storage: function(ID, callback) {
-		this.collection("Storages").findAndModify({ID: ID}, [], {}, {remove: true}, callback);
+		this.collection("Storages").findAndModify({_id: ID}, [], {}, {remove: true}, callback);
 	},
 	insert_Storage: function(data, callback) {
 		this.collection("Storages").insertOne(data, {}, callback || function(){ });
 	},
-	update_Storage: function(data, callback) {
-		this.collection("Storages").update({ID: data.ID}, data, {}, callback || function(){ });	
+	update_Storage: function(id , data, callback) {
+		this.collection("Storages").updateOne({_id: id}, { $set: data }, {}, callback || function(){ });	
 	}
 });
 module.exports = Storage_Model;

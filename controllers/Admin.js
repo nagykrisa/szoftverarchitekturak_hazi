@@ -2,6 +2,7 @@ var BaseController = require("./Base"),
 	View = require("../views/Base"),
 	model = new (require("../models/Storage_Model")),
 	crypto = require("crypto")
+	ObjectId = require('mongodb').ObjectID;
 
 module.exports = BaseController.extend({ 
 	name: "Admin",
@@ -60,6 +61,10 @@ module.exports = BaseController.extend({
 					<td>' + record.name + '</td>\
 					<td>' + record.longitude + '</td>\
 					<td>' + record.latitude + '</td>\
+					<td>\
+						<a href="/admin?action=delete&id=' + record._id + '">delete</a>&nbsp;&nbsp;\
+						<a href="/admin?action=edit&id=' + record._id + '">edit</a>\
+					</td>\
 				</tr>\
 			';
 			}
@@ -70,11 +75,11 @@ module.exports = BaseController.extend({
 	form: function(req, res, callback) {
 		var returnTheForm = function() {
 			if(req.query && req.query.action === "edit" && req.query.id) {
-				model.getlist(function(err, records) {
+				model.getlist_Storage(function(err, records) {
 					if(records.length > 0) {
 						var record = records[0];
 						res.render('storage-record', {
-							ID: record.ID,
+							_id: record._id,
 							name: record.name,
 							longitude: record.longitude,
 							latitude: record.latitude	
@@ -86,7 +91,7 @@ module.exports = BaseController.extend({
 							callback(html);
 						});
 					}
-				}, {ID: req.query.id});
+				}, {_id: ObjectId(req.query.id)});
 			} else {
 				res.render('storage-record', {}, function(err, html) {
 					callback(html);
@@ -100,16 +105,22 @@ module.exports = BaseController.extend({
 				longitude: parseFloat(req.body.longitude),
 				latitude: parseFloat(req.body.latitude),
 			}
-			model[req.body.ID != '' ? 'update_Storage' : 'insert_Storage'](data, function(err, objects) {
-				returnTheForm();
-			});
+			if(req.body._id != ''){
+				model.update_Storage(ObjectId(req.body._id),data, function(err, objects) {
+					returnTheForm();
+				});
+			}else{
+				model.insert_Storage(data, function(err, objects) {
+					returnTheForm();
+				});
+			}
 		} else {
 			returnTheForm();
 		}
 	},
 	del: function(req, callback) {
-		if(req.query && req.query.action === "delete_Storage" && req.query.id) {
-			model.remove(req.query.id, callback);
+		if(req.query && req.query.action === "delete" && req.query.id) {
+			model.remove_Storage(ObjectId(req.query.id), callback);
 		} else {
 			callback();
 		}

@@ -1,6 +1,6 @@
 <form action="/trucks" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="formsubmitted" value="yes">
-	<input type="hidden" name="ID" value="{{ID}}">
+	<input type="hidden" name="_id" value="{{_id}}">
 	Current Location:
 	<br />
 		<select name="current_location">
