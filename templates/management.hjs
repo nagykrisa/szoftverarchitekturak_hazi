@@ -27,13 +27,18 @@
                 <div class="content">
                     <div class="center-box">
                         <div class="row">
-                            <div class="one-half">
-                                <h2>{{{model_form_header}}}</h2>
+                            <div>
+                                <h1><span class="magenta">{{{model_form_header}}}</span></h1>
+                                <br/>
                                 {{{model_form_template}}}
+                                <br/>
                             </div>
-                            <div class="one-half">
-                                <h2>{{{content_header}}}</h2>
-                                <table class="content_table">
+                        </div>
+                        <div class="row">
+                            <div>
+                                <h1><span class="magenta">{{{content_header}}}</span></h1>
+                                <br/>
+                                <table class="content_table, container">
                                     <thead>
                                       <tr>
                                         {{{content_table_header}}}
@@ -44,7 +49,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                 </div>

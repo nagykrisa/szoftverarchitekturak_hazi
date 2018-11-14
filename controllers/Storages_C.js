@@ -30,10 +30,10 @@ module.exports = BaseController.extend({
 		this.content = {};
 		model.getlist_Storage(function(err, records) {
 			var head_row  = "<tr>\
-				<th>Num</th>\
-				<th>Name</th>\
-				<th>Longitude</th>\
-				<th>Latitude</th>\
+				<th><h1>Num</h1></th>\
+				<th><h1>Name</h1></th>\
+				<th><h1>Longitude</h1></th>\
+				<th><h1>Latitude</h1></th>\
 			  </tr>";
 			var length = records.length;
 			var table_row = '';

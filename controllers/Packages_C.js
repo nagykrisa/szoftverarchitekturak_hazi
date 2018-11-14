@@ -34,13 +34,13 @@ module.exports = BaseController.extend({
 		this.content = {};
 		package_model.getlist_Package(function(err, records) {
 			var head_row = "<tr>\
-				<th>Num</th>\
-				<th>Name</th>\
-				<th>From</th>\
-				<th>To</th>\
-				<th>Mass</th>\
-				<th>Volume</th>\
-				<th>Deadline</th>\
+				<th><h1>Num</h1></th>\
+				<th><h1>Name</h1></th>\
+				<th><h1>From</h1></th>\
+				<th><h1>To</h1></th>\
+				<th><h1>Mass</h1></th>\
+				<th><h1>Volume</h1></th>\
+				<th><h1>Deadline</h1></th>\
 			  </tr>";
 			var table_row = '';
 			var index = 1;

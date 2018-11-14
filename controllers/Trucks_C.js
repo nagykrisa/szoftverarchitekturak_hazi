@@ -33,11 +33,11 @@ module.exports = BaseController.extend({
 		this.content = {};
 		truck_model.getlist_Truck(function(err, records) {
 			var head_row  = "<tr>\
-				<th>Num</th>\
-				<th>Current_Location</th>\
-				<th>Speed_max</th>\
-				<th>Volume_max</th>\
-				<th>Load_max</th>\
+				<th><h1>Num</h1></th>\
+				<th><h1>Current_Location</h1></th>\
+				<th><h1>Speed_max</h1></th>\
+				<th><h1>Volume_max</h1></th>\
+				<th><h1>Load_max</h1></th>\
 			  </tr>";
 			var table_row = '';
 			var index = 1;
