@@ -34,10 +34,10 @@ module.exports = BaseController.extend({
 		truck_model.getlist_Truck(function(err, records) {
 			var head_row  = "<tr>\
 				<th><h1>Num</h1></th>\
-				<th><h1>Current_Location</h1></th>\
-				<th><h1>Speed_max</h1></th>\
-				<th><h1>Volume_max</h1></th>\
-				<th><h1>Load_max</h1></th>\
+				<th><h1>Current Location</h1></th>\
+				<th><h1>Speed max</h1></th>\
+				<th><h1>Volume max</h1></th>\
+				<th><h1>Load max</h1></th>\
 			  </tr>";
 			var table_row = '';
 			var index = 1;
