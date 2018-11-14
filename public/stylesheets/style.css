@@ -1,9 +1,9 @@
 body {
-  font-weight: 300;
+  font-weight: bold;
   line-height: 1.42em;
   color: #A7A1AE;
   background-color: #1F2739;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
 }
 body,
 html {
