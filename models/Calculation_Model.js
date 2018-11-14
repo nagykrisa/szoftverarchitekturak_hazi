@@ -6,8 +6,6 @@ module.exports = {
     Storage_List: null,
     Truck_List: null,
     Package_List: null,
-    //Adatbazisbol kiszedjuk ami kell
-    //Modell inicializalasa
     model_initialize: function(req,callback){
         storage_model.setDB(req.db);
         truck_model.setDB(req.db);
@@ -38,15 +36,8 @@ module.exports = {
             self.Package_List= records;
             callback(self);
         }, {});
-    },
-    //szamolos algotirmusnak
-    //databan beadjuk a packageket
-    //callbackbe kirajzoltatjuk az eredményt??
-    make_calculation: function(){
-        var self = this;
     }
 }
-
 //Storages: 
 // _id:
 // name:

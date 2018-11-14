@@ -19,7 +19,6 @@
                         <li><a href="/trucks">Truck Management</a></li>
                         <li><a href="/storages">Storage Management</a></li>
                     </ul>
-                    <br class="clear" />
 				</div>
 			</nav>
             
@@ -30,12 +29,10 @@
                         <div class="row">
                             <div class="one-half">
                                 <h2>{{{model_form_header}}}</h2>
-                            <!-- ide jön az adat beadós form meg nem tudjuk hogy lesz-->
                                 {{{model_form_template}}}
                             </div>
                             <div class="one-half">
                                 <h2>{{{content_header}}}</h2>
-                            <!-- ide jön az adat kiiras-->
                                 <table class="content_table">
                                     <thead>
                                       <tr>

@@ -5,16 +5,14 @@ var Package_Model = model.extend({
 	getlist_Package: function(callback, query) {
 		this.collection("Packages").find(query || {}).toArray(callback);
 	},
-	//Only admin functions
-    //later todo
 	remove_Package: function(ID, callback) {
-		this.collection("Packages").findAndModify({ID: ID}, [], {}, {remove: true}, callback);
+		this.collection("Packages").findAndModify({_id: ID}, [], {}, {remove: true}, callback);
 	},
 	insert_Package: function(data, callback) {
 		this.collection("Packages").insertOne(data, {}, callback || function(){ });
 	},
 	update_Package: function(data, callback) {
-		this.collection("Packages").update({ID: data.ID}, data, {}, callback || function(){ });	
+		this.collection("Packages").update({_id: data.ID}, data, {}, callback || function(){ });	
 	}
 });
 module.exports = Package_Model;
