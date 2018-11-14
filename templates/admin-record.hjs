@@ -1,7 +1,7 @@
 <form action="/admin" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="formsubmitted" value="yes">
 	<input type="hidden" name="currentPicture" value="{{picture}}">
-	<input type="hidden" name="ID" value="{{ID}}">
+	<input type="hidden" name="_id" value="{{_id}}">
 	Title:<br />
 	<input type="text" name="title" value="{{title}}" /><br />
 	Text:<br />

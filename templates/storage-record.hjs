@@ -1,8 +1,8 @@
 <form action="/storages" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="formsubmitted" value="yes">
-	<input type="hidden" name="ID" value="{{ID}}">
+	<input type="hidden" name="_id" value="{{_id}}">
 	Name:<br />
-	<input type="text" name="name" value="{{name}}" /><br />
+	<input type="text" name="name" value="{{name}}" required/><br />
     Longitude:<br />
 	<input type="number" name="longitude" value="{{longitude}}" step= any required/><br />
     Latitude:<br />

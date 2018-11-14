@@ -1,6 +1,7 @@
 var BaseController = require("./Base"),
 	View = require("../views/Base"),
 	model = new (require("../models/Storage_Model"));
+	ObjectId = require('mongodb').ObjectID;
 module.exports = BaseController.extend({ 
 	name: "Storages",
 	content: null,
@@ -34,8 +35,8 @@ module.exports = BaseController.extend({
 				<th><h1>Name</h1></th>\
 				<th><h1>Longitude</h1></th>\
 				<th><h1>Latitude</h1></th>\
+				<th></th>\
 			  </tr>";
-			var length = records.length;
 			var table_row = '';
 			var index = 1;
 			records.forEach( function(element){
@@ -45,6 +46,10 @@ module.exports = BaseController.extend({
 					<td>'+ element.name +'</td>\
 					<td>'+ element.longitude +'</td>\
 					<td>'+ element.latitude +'</td>\
+					<td>\
+						<a href="/storages?action=delete&id=' + element._id + '">delete</a>&nbsp;&nbsp;\
+						<a href="/storages?action=edit&id=' + element._id + '">edit</a>\
+					</td>\
 				';
 				table_row+= '</tr>';
 				index++;
@@ -59,7 +64,7 @@ module.exports = BaseController.extend({
 					if(records.length > 0) {
 						var record = records[0];
 						res.render('storage-record', {
-							ID: record._id,
+							_id: record._id,
 							name: record.name,
 							longitude: parseFloat(record.longitude),
 							latitude: parseFloat(record.latitude)	
@@ -71,7 +76,7 @@ module.exports = BaseController.extend({
 							callback(html);
 						});
 					}
-				}, {ID: req.query.id});
+				}, {_id: ObjectId(req.query.id)});
 			} else {
 				res.render('storage-record', {}, function(err, html) {
 					callback(html);
@@ -85,16 +90,22 @@ module.exports = BaseController.extend({
 				longitude: parseFloat(req.body.longitude),
 				latitude: parseFloat(req.body.latitude),
 			}
-			model[req.body.ID != '' ? 'update_Storage' : 'insert_Storage'](data, function(err, objects) {
-				returnTheForm();
-			});
+			if(req.body._id != ''){
+				model.update_Storage(ObjectId(req.body._id),data, function(err, objects) {
+					returnTheForm();
+				});
+			}else{
+				model.insert_Storage(data, function(err, objects) {
+					returnTheForm();
+				});
+			}
 		} else {
 			returnTheForm();
 		}
 	},
 	del: function(req, callback) {
-		if(req.query && req.query.action === "delete_Storage" && req.query.id) {
-			model.remove(req.query.id, callback);
+		if(req.query && req.query.action === "delete" && req.query.id) {
+			model.remove_Storage(ObjectId(req.query.id), callback);
 		} else {
 			callback();
 		}

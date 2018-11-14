@@ -11,8 +11,8 @@ var Storage_Model = model.extend({
 	insert_Storage: function(data, callback) {
 		this.collection("Storages").insertOne(data, {}, callback || function(){ });
 	},
-	update_Storage: function(data, callback) {
-		this.collection("Storages").update({_id: data.ID}, data, {}, callback || function(){ });	
+	update_Storage: function(id , data, callback) {
+		this.collection("Storages").updateOne({_id: id}, { $set: data }, {}, callback || function(){ });	
 	}
 });
 module.exports = Storage_Model;

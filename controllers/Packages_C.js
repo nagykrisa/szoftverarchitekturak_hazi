@@ -2,7 +2,7 @@ var BaseController = require("./Base"),
 	View = require("../views/Base"),
 	package_model = new (require("../models/Package_Model"));
 	storage_model = new (require("../models/Storage_Model"));
-
+	ObjectId = require('mongodb').ObjectID;
 module.exports = BaseController.extend({ 
 	name: "Packages",
 	content: null,
@@ -28,7 +28,6 @@ module.exports = BaseController.extend({
 			});
 		});
     },
-    //todo getcontent
 	getContent: function(req,res,callback) {
 		var self = this;
 		this.content = {};
@@ -41,6 +40,7 @@ module.exports = BaseController.extend({
 				<th><h1>Mass</h1></th>\
 				<th><h1>Volume</h1></th>\
 				<th><h1>Deadline</h1></th>\
+				<th></th>\
 			  </tr>";
 			var table_row = '';
 			var index = 1;
@@ -54,6 +54,10 @@ module.exports = BaseController.extend({
 					<td>'+ element.mass +'</td>\
 					<td>'+ element.volume +'</td>\
 					<td>'+ element.deadline +'</td>\
+					<td>\
+						<a href="/packages?action=delete&id=' + element._id + '">delete</a>&nbsp;&nbsp;\
+						<a href="/packages?action=edit&id=' + element._id + '">edit</a>\
+					</td>\
 				';
 				table_row+= '</tr>';
 				index++;
@@ -67,23 +71,36 @@ module.exports = BaseController.extend({
 				package_model.getlist_Package(function(err, records) {
 					if(records.length > 0) {
 						var record = records[0];
+						var storage_list_from= '';
+						var storage_list_to= '';
+						storage_model.getlist_Storage(function(err,elements){
+						elements.forEach(function(element){
+							if(element.name == record.from)
+								storage_list_from += '<option value="'+ element.name+'"selected = "selected">'+ element.name+'</option>'
+							if(element.name == record.to)
+								storage_list_to += '<option value="'+ element.name+'"selected = "selected">'+ element.name+'</option>'
+							storage_list_from += '<option value="'+ element.name+'">'+ element.name+'</option>'
+							storage_list_to += '<option value="'+ element.name+'">'+ element.name+'</option>'
+						});
 						res.render('package-record', {
-							ID: record._id,
+							_id: record._id,
 							name: record.name,
-							from: record.from,
-							to: record.to,
+							from: storage_list_from,
+							to: storage_list_to,
 							mass: record.mass,
 							volume: record.volume,
-							deadline: record.deadline							
+							deadline: record.deadline	
 						}, function(err, html) {
 							callback(html);
 						});
-					} else {
-						res.render('package-record', {}, function(err, html) {
-							callback(html);
-						});
-					}
-				}, {ID: req.query.id});
+					},{});
+
+				} else {
+					res.render('package-record', {}, function(err, html) {
+						callback(html);
+					});
+				}
+			}, {_id: ObjectId(req.query.id)});
 			} else {
 				var storage_list= '';
 				storage_model.getlist_Storage(function(err,records){
@@ -109,16 +126,23 @@ module.exports = BaseController.extend({
 				volume: parseFloat(req.body.volume),
 				deadline: parseInt(req.body.deadline)
 			}
-			package_model[req.body.ID != '' ? 'update_Package' : 'insert_Package'](data, function(err, objects) {
-				returnTheForm();
-			});
+			if(req.body._id != ''){
+				package_model.update_Package(ObjectId(req.body._id),data, function(err, objects) {
+					returnTheForm();
+				});
+			}else{
+				console.log("INSERT")
+				package_model.insert_Package(data, function(err, objects) {
+					returnTheForm();
+				});
+			}
 		} else {
 			returnTheForm();
 		}
 	},
 	del: function(req, callback) {
-		if(req.query && req.query.action === "delete_Package" && req.query.id) {
-			package_model.remove(req.query.id, callback);
+		if(req.query && req.query.action === "delete" && req.query.id) {
+			package_model.remove_Package(ObjectId(req.query.id), callback);
 		} else {
 			callback();
 		}

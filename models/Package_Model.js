@@ -11,8 +11,8 @@ var Package_Model = model.extend({
 	insert_Package: function(data, callback) {
 		this.collection("Packages").insertOne(data, {}, callback || function(){ });
 	},
-	update_Package: function(data, callback) {
-		this.collection("Packages").update({_id: data.ID}, data, {}, callback || function(){ });	
+	update_Package: function(id, data, callback) {
+		this.collection("Packages").updateOne({_id: id}, { $set: data }, {}, callback || function(){ });	
 	}
 });
 module.exports = Package_Model;
