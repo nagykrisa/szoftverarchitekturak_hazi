@@ -208,8 +208,26 @@ module.exports = BaseController.extend({
 				});
 			});
 			var header = 'Calculation Results';
+			var table_text='<table class="select_table, container"><thead>';
+			table_text += '\
+			<tr>\
+				<th><h1>Selected</h1></th>\
+				<th><h1>Name</h1></th>\
+				<th><h1>From</h1></th>\
+				<th><h1>To</h1></th>\
+				<th><h1>Mass</h1></th>\
+				<th><h1>Volume</h1></th>\
+				<th><h1>Deadline</h1></th>\
+			</tr>\
+			</thead>\
+			<tbody>';
+
+			table_text += ''; //ide jönnek a sorok
+
+			table_text +='</tbody></table>';
+
 			res.render('calculation-result', {
-				list: "<h1> Fityisz</h1>"
+				list: table_text
 			}, function(err,html) {
 				callback(header,html);
 			});

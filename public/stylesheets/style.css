@@ -35,6 +35,12 @@ h2 a {
   color: #FB667A;
   text-decoration: none;
 }
+a:link {
+  color: #FB667A;
+}
+a:visited {
+  color: #FB667A;
+}
 .blue {
   color: #185875;
 }
@@ -104,6 +110,15 @@ h2 a {
   transition-property: all;
   transition-timing-function: line;
 }
+.container td:hover a:link {
+  color: #464A52;
+}
+.container td:hover a:visited {
+  color: #464A52;
+}
+.container td:hover a:hover {
+  color: #FFF842;
+}
 @media (max-width: 800px) {
   .container td:nth-child(4),
   .container th:nth-child(4) {
@@ -163,8 +178,8 @@ nav .menu li a:hover {
 .footer .content {
   margin: 20px auto 20px auto;
   padding: 10px 0 20px 0;
-  color: #999;
   text-align: center;
+  color: #999;
   border-top: solid 2px #7f7f7f;
 }
 .calculation .row {
