@@ -63,9 +63,6 @@ MongoClient.connect(uri,{ useNewUrlParser: true }, function(err, client) {
 	}
 });
 //TODOOO
-///Style:todo ---> formokat kozepre igatítani kulturalt formaban
-///           ---> Submit gombok középre és kulturalt formaban
-///           ---> Navbar sajat style kitalalasa
+///Style:todo ---> Navbar sajat style kitalalasa
 ///           ---> Tickbox-ra valami fancy nézet
-///           ---> footert rendberakni
 ///Calculation---> BackGomb?()

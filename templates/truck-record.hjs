@@ -1,16 +1,26 @@
 <form action="/trucks" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="formsubmitted" value="yes">
 	<input type="hidden" name="_id" value="{{_id}}">
-	Current Location:<br />
+	<fieldset>
+		<label>Current Location:</label>
 		<select name="current_location">
 			{{{current_location}}}
-		</select><br />
-    Maximum Speed(km/h):<br />
-	<input type="number" name="speed_max" value="{{speed_max}}" step= any required/><br />
-    Maximum Volume(m&sup3;):<br />
-	<input type="number" name="volume_max" value="{{volume_max}}" step= any required/><br />
-    Maximum Load(kg):<br />
-	<input type="number" name="load_max" value="{{load_max}}" step= any required/><br /><br />
-	<input type="submit" value="submit" />
+		</select>
+	</fieldset>
+    <fieldset>
+		<label>Maximum Speed(km/h):</label>
+		<input type="number" name="speed_max" value="{{speed_max}}" step= any required/>
+	</fieldset>
+    <fieldset>
+		<label>Maximum Volume(m&sup3;):</label>
+		<input type="number" name="volume_max" value="{{volume_max}}" step= any required/>
+	</fieldset>
+    <fieldset>
+		<label>Maximum Load(kg):</label>
+		<input type="number" name="load_max" value="{{load_max}}" step= any required/>
+	</fieldset>
+	<fieldset>
+		<input type="submit" value="submit" />
+	</fieldset>
 </form>
 

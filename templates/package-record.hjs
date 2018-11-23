@@ -1,21 +1,35 @@
 <form action="/packages" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="formsubmitted" value="yes">
 	<input type="hidden" name="_id" value="{{_id}}">
-	Name:<br />
-	<input type="text" name="name" value="{{name}}" required/><br />
-	From:<br />
+	<fieldset>
+		<label>Name:</label>
+		<input type="text" name="name" value="{{name}}" required/>
+	</fieldset>
+	<fieldset>
+		<label>From:</label>
 		<select name="from">
 			{{{from}}}
-		</select><br />
-    To:<br />
+		</select>
+	</fieldset>
+	<fieldset>
+		<label>To:</label>
 		<select name="to">
 			{{{to}}}
-		</select><br />
-    Mass(kg):<br />
-	<input type="number" name="mass" value="{{mass}}" required/><br />
-    Volume(m&sup3;):<br />
-	<input type="number" name="volume" value="{{volume}}"required/><br />
-    Deadline(h):<br />
-	<input type="number" name="deadline" value="{{deadline}}" min = "0" max = "24"required/><br /><br />
-	<input type="submit" value="submit" />
+		</select>
+	</fieldset>
+	<fieldset>
+		<label>Mass(kg):</label>
+		<input type="number" name="mass" value="{{mass}}" required/>
+	</fieldset>
+	<fieldset>
+		<label>Volume(m&sup3;):</label>
+		<input type="number" name="volume" value="{{volume}}"required/>
+	</fieldset>
+	<fieldset>
+		<label>Deadline(h):</label>
+		<input type="number" name="deadline" value="{{deadline}}" min = "0" max = "24"required/>
+	</fieldset>
+	<fieldset>
+		<input type="submit" value="submit" />
+	</fieldset>
 </form>

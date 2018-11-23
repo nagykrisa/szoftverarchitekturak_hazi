@@ -1,11 +1,19 @@
 <form action="/storages" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="formsubmitted" value="yes">
 	<input type="hidden" name="_id" value="{{_id}}">
-	Name:<br />
-	<input type="text" name="name" value="{{name}}" required/><br />
-    Longitude:<br />
-	<input type="number" name="longitude" value="{{longitude}}" step= any required/><br />
-    Latitude:<br />
-	<input type="number" name="latitude" value="{{latitude}}" step= any required/><br /><br />
-	<input type="submit" value="submit" />
+	<fieldset>
+		<label>Name:</label>
+		<input type="text" name="name" value="{{name}}" required/>
+	</fieldset>
+    <fieldset>
+		<label>Longitude:</label>
+		<input type="number" name="longitude" value="{{longitude}}" step= any requirred/>
+	</fieldset>
+	<fieldset>
+   		<label>Latitude:</label>
+		<input type="number" name="latitude" value="{{latitude}}" step= any required/>
+	</fieldset>
+	<fieldset>
+		<input type="submit" value="submit" />
+	</fieldset>
 </form>
