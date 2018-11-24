@@ -105,7 +105,7 @@ module.exports = BaseController.extend({
 
 			} else if(current_list_selection === 'package'){
 				var records = calc_model.Package_List;
-				console.log(records);				
+				//console.log(records);				
 				if(records.length > 0) {
 					var header = "Select Your Packages"
 					var package_select_table='<table class="select_table, container">\
@@ -122,7 +122,7 @@ module.exports = BaseController.extend({
 						</tr>\
 						</thead>\
 						<tbody>';
-					console.log(calc_model.calculation_storage_list);
+					//console.log(calc_model.calculation_storage_list);
 					for(var i=0; element = records[i]; i++){
 						for(var j=0; selected_from = calc_model.calculation_storage_list[j]; j++){
 							for(var k=0; selected_to = calc_model.calculation_storage_list[k]; k++){
@@ -167,6 +167,7 @@ module.exports = BaseController.extend({
 		}
 
 		if(req.body && req.body.formsubmitted && req.body.formsubmitted === 'yes' && req.body.whichFormWasIt ==='storage' ){
+			calc_model.calculation_storage_list=[];
 			var records = calc_model.Storage_List;
 			var IDs = [];
 			if(typeof req.body.storage == "object")
@@ -184,6 +185,7 @@ module.exports = BaseController.extend({
 			//hogy most a Truckos formot kell ki renderelni
 			returnTheForm('truck');
 		} else if(req.body && req.body.formsubmitted && req.body.formsubmitted === 'yes' && req.body.whichFormWasIt ==='truck'){
+			calc_model.calculation_truck_list=[];
 			var records = calc_model.Truck_List;
 			var IDs = [];
 			if(typeof req.body.truck == "object")
@@ -197,12 +199,13 @@ module.exports = BaseController.extend({
 					}
 				}
 			}
-			console.log(calc_model.calculation_storage_list);
+			//console.log(calc_model.calculation_storage_list);
 			//3. ha a truckos formbol kaptunk vissza adatokat akkor tudjuk,
 			//hogy most a packages formot kell ki renderelni
 			returnTheForm('package');
 
 		} else if(req.body && req.body.formsubmitted && req.body.formsubmitted === 'yes' && req.body.whichFormWasIt ==='package'){
+			calc_model.calculation_package_list=[];
 			var records = calc_model.Package_List;
 			var IDs = [];
 			if(typeof req.body.package == "object")
@@ -216,6 +219,7 @@ module.exports = BaseController.extend({
 					}
 				}
 			}
+			// ezt nem itt kéne csinálni majd
 			var header = 'Calculation Results';
 			var table_text='<table class="select_table, container"><thead>';
 			table_text += '\
@@ -230,6 +234,9 @@ module.exports = BaseController.extend({
 			</tr>\
 			</thead>\
 			<tbody>';
+			calc_model.evaluate_optimal_total_distance(function(result){
+				table_text +='Maximális út'+ result +'km';
+			});
 
 			table_text += ''; //ide jönnek a sorok
 
