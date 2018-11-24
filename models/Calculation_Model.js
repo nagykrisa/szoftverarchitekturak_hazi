@@ -6,6 +6,9 @@ module.exports = {
     Storage_List: null,
     Truck_List: null,
     Package_List: null,
+    calculation_storage_list: null,
+    calculation_truck_list: null,
+    calculation_package_list: null,
     model_initialize: function(req,callback){
         storage_model.setDB(req.db);
         truck_model.setDB(req.db);

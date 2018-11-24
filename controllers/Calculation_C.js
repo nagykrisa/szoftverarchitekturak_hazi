@@ -1,9 +1,6 @@
 var BaseController = require("./Base"),
 	View = require("../views/Base"),
 	calc_model = require("../models/Calculation_Model");
-var calculation_storage_list=[];
-var calculation_truck_list=[];
-var calculation_package_list=[];
 module.exports = BaseController.extend({ 
 	name: "Calculation",
 	content: null,
@@ -78,7 +75,7 @@ module.exports = BaseController.extend({
 						</thead>\
 						<tbody>';	
 					records.forEach(function(element){
-						calculation_storage_list.forEach(function(selected){
+						calc_model.calculation_storage_list.forEach(function(selected){
 							if(element.current_location == selected.name){
 								truck_select_table += '<tr>\
 								<td><input  type="checkbox" name="truck" value="'+ element._id +'"></td>\
@@ -125,10 +122,10 @@ module.exports = BaseController.extend({
 						</tr>\
 						</thead>\
 						<tbody>';
-					console.log(calculation_storage_list);
+					console.log(calc_model.calculation_storage_list);
 					records.forEach(function(element){
-						calculation_storage_list.forEach(function(selected_from){
-							calculation_storage_list.forEach(function(selected_to){
+						calc_model.calculation_storage_list.forEach(function(selected_from){
+							calc_model.calculation_storage_list.forEach(function(selected_to){
 								if( (element.from == selected_from.name) && (element.to == selected_to.name) ){
 									package_select_table += '<tr>\
 									<td><input  type="checkbox" name="package" value="'+ element._id +'"></td>\
@@ -175,7 +172,7 @@ module.exports = BaseController.extend({
 			records.forEach(function(record){
 				IDs.forEach(function(id){
 					if(record._id == id){
-						calculation_storage_list.push(record);
+						calc_model.calculation_storage_list.push(record);
 					}
 				});
 			});
@@ -188,11 +185,11 @@ module.exports = BaseController.extend({
 			records.forEach(function(record){
 				IDs.forEach(function(id){
 					if(record._id == id){
-						calculation_truck_list.push(record);
+						calc_model.calculation_truck_list.push(record);
 					}
 				});
 			});
-			console.log(calculation_storage_list);
+			console.log(calc_model.calculation_storage_list);
 			//3. ha a truckos formbol kaptunk vissza adatokat akkor tudjuk,
 			//hogy most a packages formot kell ki renderelni
 			returnTheForm('package');
@@ -203,7 +200,7 @@ module.exports = BaseController.extend({
 			records.forEach(function(record){
 				IDs.forEach(function(id){
 					if(record._id == id){
-						calculation_package_list.push(record);
+						calc_model.calculation_package_list.push(record);
 					}
 				});
 			});
@@ -238,9 +235,9 @@ module.exports = BaseController.extend({
 		}else{
 			// 1. először a storage formot rendereltetjük ki.
 			//TODO ha egy elemet választtunk ki akkor nem tömb
-			calculation_storage_list=[];
-			calculation_truck_list=[];
-			calculation_package_list=[];
+			calc_model.calculation_storage_list=[];
+			calc_model.calculation_truck_list=[];
+			calc_model.calculation_package_list=[];
 			returnTheForm('storage'); 
 		}
 	}
