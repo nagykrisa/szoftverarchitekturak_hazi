@@ -3,24 +3,24 @@ var config = {
 		mode: 'local',
 		port: 3000,
 		mongo: {
-			host: 'nagykrisa',
-			port: ''
+			host: 'akozos',
+			key: 'sozoka'
 		}
 	},
 	staging: {
 		mode: 'staging',
 		port: 4000,
 		mongo: {
-			host: 'nagykrisa',
-			port: ''
+			host: 'akozos',
+			key: 'sozoka'
 		}
 	},
 	production: {
 		mode: 'production',
 		port: 5000,
 		mongo: {
-			host: 'nagykrisa',
-			port: ''
+			host:'akozos',
+			key: 'sozoka'
 		}
 	}
 }
