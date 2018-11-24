@@ -39,6 +39,55 @@ module.exports = {
             self.Package_List= records;
             callback(self);
         }, {});
+    },
+    //ha kiszamoltuk visszahivjuk
+    evaluate_central_calc: function(callback){
+
+
+        callback();
+    },
+    evaluate_optimal_total_distance: function(callback){
+        var total_distance = 0;
+        console.log(this.calculation_package_list.length);
+        for(var i=0; i < this.calculation_package_list.length; i++){
+            console.log(i);
+            var from = this.calculation_package_list[i].from;
+            var to   = this.calculation_package_list[i].to;
+            var tmp  = this.evaluate_distance(this.get_from_Storages(from),this.get_from_Storages(to));
+            total_distance+=tmp;
+        }
+        console.log(total_distance/1000);
+        callback(total_distance/1000);
+    },
+    evaluate_distance(a,b){
+        var lat1 = a.latitude;
+        var lon1 = a.longitude;
+        var lat2 = b.latitude;
+        var lon2 = b.longitude;
+        var R = 6371e3; // metres
+        var φ1 = this.deg2rad(parseFloat(lat1));
+        var φ2 = this.deg2rad(parseFloat(lat2));
+        var Δφ = this.deg2rad(parseFloat(parseFloat(lat2)-parseFloat(lat1)));
+        var Δλ = this.deg2rad((parseFloat(lon2)-parseFloat(lon1)));
+        var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        
+        var distance = R * c;
+        return distance;
+    },
+    get_from_Storages(name){
+        var wanted = null;
+        for(var i=0; i<this.calculation_storage_list.length;i++){
+            if(this.calculation_storage_list[i].name == name){
+                wanted = this.calculation_storage_list[i];
+            }
+        }
+        return wanted;
+    },
+    deg2rad(deg) {
+        return deg * (Math.PI/180)
     }
 }
 //Storages: 
