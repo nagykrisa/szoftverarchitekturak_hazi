@@ -35,7 +35,7 @@ module.exports = BaseController.extend({
 						</tr>\
 						</thead>\
 						<tbody>';
-					records.forEach(function(element){
+					for(var i=0; element = records[i]; i++){
 						storage_select_table += '<tr>\
 						<td><input  type="checkbox" name="storage" value="'+ element._id +'"></td>\
 						<td>'+ element.name +'</td>\
@@ -43,7 +43,7 @@ module.exports = BaseController.extend({
 						<td>' + element.latitude + '</td>\
 							</tr>\
 						';
-					});
+					}
 						storage_select_table +='</tbody>\
 								</table>';
 					res.render('calculation-select_parameters', {
@@ -74,10 +74,10 @@ module.exports = BaseController.extend({
 						</tr>\
 						</thead>\
 						<tbody>';	
-					records.forEach(function(element){
-						calc_model.calculation_storage_list.forEach(function(selected){
+					for(var i=0; element = records[i]; i++){
+						for(var j=0; selected = calc_model.calculation_storage_list[j]; j++){
 							if(element.current_location == selected.name){
-								truck_select_table += '<tr>\
+							truck_select_table += '<tr>\
 								<td><input  type="checkbox" name="truck" value="'+ element._id +'"></td>\
 								<td>'+ element.current_location +'</td>\
 								<td>'+ element.speed_max + '</td>\
@@ -86,8 +86,8 @@ module.exports = BaseController.extend({
 									</tr>\
 								';
 							}
-						});
-					});
+						}
+					}
 						truck_select_table +='</tbody>\
 								</table>';
 					res.render('calculation-select_parameters', {
@@ -123,9 +123,9 @@ module.exports = BaseController.extend({
 						</thead>\
 						<tbody>';
 					//console.log(calc_model.calculation_storage_list);
-					records.forEach(function(element){
-						calc_model.calculation_storage_list.forEach(function(selected_from){
-							calc_model.calculation_storage_list.forEach(function(selected_to){
+					for(var i=0; element = records[i]; i++){
+						for(var j=0; selected_from = calc_model.calculation_storage_list[j]; j++){
+							for(var k=0; selected_to = calc_model.calculation_storage_list[k]; k++){
 								if( (element.from == selected_from.name) && (element.to == selected_to.name) ){
 									package_select_table += '<tr>\
 									<td><input  type="checkbox" name="package" value="'+ element._id +'"></td>\
@@ -138,9 +138,9 @@ module.exports = BaseController.extend({
 										</tr>\
 									';
 								}
-							});
-						});
-					});
+							}
+						}
+					}
 					package_select_table +='</tbody>\
 								</table>';
 					res.render('calculation-select_parameters', {
@@ -169,28 +169,36 @@ module.exports = BaseController.extend({
 		if(req.body && req.body.formsubmitted && req.body.formsubmitted === 'yes' && req.body.whichFormWasIt ==='storage' ){
 			calc_model.calculation_storage_list=[];
 			var records = calc_model.Storage_List;
-			var IDs = req.body.storage;
-			records.forEach(function(record){
-				IDs.forEach(function(id){
+			var IDs = [];
+			if(typeof req.body.storage == "object")
+				IDs = req.body.storage;
+			else
+				IDs.push(req.body.storage);
+			for(var i=0; record = records[i]; i++){
+				for(var j=0; id = IDs[j]; j++){
 					if(record._id == id){
 						calc_model.calculation_storage_list.push(record);
 					}
-				});
-			});
+				}
+			}
 			//2. ha a storages formbol kaptunk vissza adatokat akkor tudjuk,
 			//hogy most a Truckos formot kell ki renderelni
 			returnTheForm('truck');
 		} else if(req.body && req.body.formsubmitted && req.body.formsubmitted === 'yes' && req.body.whichFormWasIt ==='truck'){
 			calc_model.calculation_truck_list=[];
 			var records = calc_model.Truck_List;
-			var IDs = req.body.truck;
-			records.forEach(function(record){
-				IDs.forEach(function(id){
+			var IDs = [];
+			if(typeof req.body.truck == "object")
+				IDs = req.body.truck;
+			else
+				IDs.push(req.body.truck);
+			for(var i=0; record = records[i]; i++){
+				for(var j=0; id = IDs[j]; j++){
 					if(record._id == id){
 						calc_model.calculation_truck_list.push(record);
 					}
-				});
-			});
+				}
+			}
 			//console.log(calc_model.calculation_storage_list);
 			//3. ha a truckos formbol kaptunk vissza adatokat akkor tudjuk,
 			//hogy most a packages formot kell ki renderelni
@@ -199,14 +207,18 @@ module.exports = BaseController.extend({
 		} else if(req.body && req.body.formsubmitted && req.body.formsubmitted === 'yes' && req.body.whichFormWasIt ==='package'){
 			calc_model.calculation_package_list=[];
 			var records = calc_model.Package_List;
-			var IDs = req.body.package;
-			records.forEach(function(record){
-				IDs.forEach(function(id){
+			var IDs = [];
+			if(typeof req.body.package == "object")
+				IDs = req.body.package;
+			else
+				IDs.push(req.body.package);
+			for(var i=0; record = records[i]; i++){
+				for(var j=0; id = IDs[j]; j++){
 					if(record._id == id){
 						calc_model.calculation_package_list.push(record);
 					}
-				});
-			});
+				}
+			}
 			// ezt nem itt kéne csinálni majd
 			var header = 'Calculation Results';
 			var table_text='<table class="select_table, container"><thead>';
