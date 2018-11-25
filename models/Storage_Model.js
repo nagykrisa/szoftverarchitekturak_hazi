@@ -16,7 +16,6 @@ var Storage_Model = model.extend({
 	}
 });
 module.exports = Storage_Model;
-
 //Storages:
 // _id:
 // name:

@@ -131,7 +131,6 @@ module.exports = BaseController.extend({
 					returnTheForm();
 				});
 			}else{
-				console.log("INSERT")
 				package_model.insert_Package(data, function(err, objects) {
 					returnTheForm();
 				});

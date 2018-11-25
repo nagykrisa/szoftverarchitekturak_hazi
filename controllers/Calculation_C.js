@@ -104,8 +104,7 @@ module.exports = BaseController.extend({
 				}
 
 			} else if(current_list_selection === 'package'){
-				var records = calc_model.Package_List;
-				//console.log(records);				
+				var records = calc_model.Package_List;			
 				if(records.length > 0) {
 					var header = "Select Your Packages"
 					var package_select_table='<table class="select_table, container">\
@@ -122,7 +121,6 @@ module.exports = BaseController.extend({
 						</tr>\
 						</thead>\
 						<tbody>';
-					//console.log(calc_model.calculation_storage_list);
 					for(var i=0; element = records[i]; i++){
 						for(var j=0; selected_from = calc_model.calculation_storage_list[j]; j++){
 							for(var k=0; selected_to = calc_model.calculation_storage_list[k]; k++){
@@ -199,7 +197,6 @@ module.exports = BaseController.extend({
 					}
 				}
 			}
-			//console.log(calc_model.calculation_storage_list);
 			//3. ha a truckos formbol kaptunk vissza adatokat akkor tudjuk,
 			//hogy most a packages formot kell ki renderelni
 			returnTheForm('package');
@@ -219,30 +216,51 @@ module.exports = BaseController.extend({
 					}
 				}
 			}
-			// ezt nem itt kéne csinálni majd
 			var header = 'Calculation Results';
-			var table_text='<table class="select_table, container"><thead>';
+			var result_records = null;
+			var sum_text = null;
+			var table_text='<table class="content_table, container"><thead>';
 			table_text += '\
 			<tr>\
-				<th><h1>Selected</h1></th>\
-				<th><h1>Name</h1></th>\
-				<th><h1>From</h1></th>\
-				<th><h1>To</h1></th>\
-				<th><h1>Mass</h1></th>\
-				<th><h1>Volume</h1></th>\
-				<th><h1>Deadline</h1></th>\
+				<th><h1>ID</h1></th>\
+				<th><h1>Original Location</h1></th>\
+				<th><h1>Final Destination</h1></th>\
+				<th><h1>Storages visited</h1></th>\
+				<th><h1>Kms Covered</h1></th>\
 			</tr>\
 			</thead>\
 			<tbody>';
-			calc_model.evaluate_optimal_total_distance(function(result){
-				table_text +='Maximális út'+ result +'km';
+			calc_model.evaluate_calculation(function(result, naivSum){
+				sum_text = '<table class="content_table, container"><thead>\
+							<tr>\
+								<th><h1>Ideális út</h1></th>\
+								<th><h1>'+naivSum.toFixed(2)+' km</h1></th>';
+				result_records = result;
 			});
 
-			table_text += ''; //ide jönnek a sorok
+			var index = 1;
+			var optimisedSum = 0;
+			result_records.forEach(function(record){
+				table_text += '<tr>\
+					<td>'+ index++ +'</td>\
+					<td>'+ record.original_loc +'</td>\
+					<td>'+ record.final_destination +'</td>\
+					<td>'+ record.number_of_trip +'</td>\
+					<td>'+ (record.sum_trip /1000).toFixed(2) +'</td>\
+					</tr>';
+				optimisedSum += record.sum_trip / 1000;
+			});
+			
+			sum_text += '<th><h1>Kiszámolt út</h1></th>\
+						 <th><h1>'+optimisedSum.toFixed(2)+' km</h1></th>\
+						 </tr>\
+						</thead>';
+
 
 			table_text +='</tbody></table>';
 
 			res.render('calculation-result', {
+				status_head: sum_text,
 				list: table_text
 			}, function(err,html) {
 				callback(header,html);

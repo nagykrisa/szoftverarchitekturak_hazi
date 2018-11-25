@@ -16,7 +16,6 @@ var Package_Model = model.extend({
 	}
 });
 module.exports = Package_Model;
-
 //Packs:
 //id:
 //name:

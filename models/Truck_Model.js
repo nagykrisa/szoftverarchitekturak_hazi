@@ -16,7 +16,6 @@ var Truck_Model = model.extend({
     }
 });
 module.exports = Truck_Model;
-
 //Trucks:
 //_id:
 //current_location:

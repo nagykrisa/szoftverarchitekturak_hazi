@@ -25,7 +25,6 @@ module.exports = BaseController.extend({
 			});
 		});
     },
-    //todo getcontent
 	getContent: function(req,res,callback) {
 		var self = this;
 		this.content = {};

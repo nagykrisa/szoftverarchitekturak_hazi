@@ -10,6 +10,9 @@ module.exports = {
     calculation_truck_list: null,
     calculation_package_list: null,
     package_priority_object: null,
+    route_list: null,
+    assign_list: null,
+    calc_list: null,
     model_initialize: function(req,callback){
         storage_model.setDB(req.db);
         truck_model.setDB(req.db);
@@ -41,36 +44,36 @@ module.exports = {
             callback(self);
         }, {});
     },
-    //ha kiszamoltuk visszahivjuk
-    evaluate_central_calc: function(callback){
-
-
-        callback();
-    },
     evaluate_calculation: function(callback){
         var self= this;
-        self.drop_useless_packages(self,function(callback){
-            self.sort_packages_by_priority(self,function(callback){
-                self.create_flow_map(self,function(callback){
-                    //TODO: reszutak eldobasa
-                    //TODO:  utak hegesztes
-                    //TODO : truckok flow végpontjaba.
+        self.drop_useless_packages(self,function(){
+            self.sort_packages_by_priority(self,function(){
+                self.create_flow_map(self,function(){
+                    self.drop_multiple_roads(self,function(){
+                        self.join_roads(self,function(){
+                            self.assign_truck(self,function(){
+                                self.calc_truck_route(self,function(alma){                                    
+                                    var szilva;
+                                    self.evaluate_optimal_total_distance(function(körte){
+                                        szilva = körte;
+                                    });
+                                    callback(alma, szilva);
+                                });
+                            });
+                        });       
+                    });
                 });
-            });
-        });
+            })
+        });        
     },
     evaluate_optimal_total_distance: function(callback){
         var total_distance = 0;
-        this.evaluate_calculation(callback);
-        //console.log(this.calculation_package_list.length);
         for(var i=0; i < this.calculation_package_list.length; i++){
-            //console.log(i);
             var from = this.calculation_package_list[i].from;
             var to   = this.calculation_package_list[i].to;
             var tmp  = this.evaluate_distance(from,to);
             total_distance+=tmp;
         }
-        //console.log(total_distance/1000);
         callback(total_distance/1000);
     },
     evaluate_distance: function(a,b){
@@ -106,11 +109,9 @@ module.exports = {
         return deg * (Math.PI/180)
     },
     drop_useless_packages: function(self,callback){
-        //console.log("elotte:"+this.calculation_package_list.length);
         this.calculation_package_list = this.calculation_package_list.filter(function(value,index,arr){
             return (value.from != value.to);
         });
-        //console.log("utana:"+this.calculation_package_list.length);
         callback();
     },
     sort_packages_by_priority: function(self,callback){
@@ -120,22 +121,19 @@ module.exports = {
             objektum["to"]  = this.calculation_package_list[i].to;
             tmp.push(objektum);
         }
-        //console.log(tmp);
         this.package_priority_object = tmp.reduce((p,c) =>{
             p[c.to] = ++p[c.to] || 1;
             return p;
         },{});
-        //console.log(this.package_priority_object);
         callback();
     },
     create_flow_map: function(self,callback){
-        var route_list = [];
+        route_list = [];
         for (var key in this.package_priority_object) {
             var tmp = [];
             this.calculation_package_list.forEach(function(package){
                 if(package.to == key){
                     tmp.push(package);
-                    console.log("key kiválasztva: "+key);
                 }
             });
             for(var i = 0; i< this.package_priority_object[key]; i++){
@@ -147,12 +145,10 @@ module.exports = {
                 tmp.forEach(function(package){
                    //FROM _ TO
                     var pack_dist= self.evaluate_distance(package.from,package.to);
-                    console.log("with calc distance:"+ pack_dist);
                     if(minimalDistance >= pack_dist){
                         minimalDistance = pack_dist;
                         minimalPackage = package;
                         minimalFrom = "TO";
-                        console.log("min package:"+minimalPackage+"with dist"+minimalDistance+"with method:"+minimalFrom);
                     }
                     //FROM _ FOLYAM
                     if(route_list.length > 0){
@@ -164,7 +160,6 @@ module.exports = {
                                     minimalPackage = package;
                                     minimalNode = route[route.length-1];
                                     minimalFrom ="ROUTE END"; 
-                                    console.log("min package:"+minimalPackage+"with dist"+minimalDistance+"with method:"+minimalFrom);
                                 }
                                 for(var i = 1; i < route.length-1; i++){
                                     var pack_dist= self.evaluate_distance(route[i],package.from);
@@ -174,7 +169,6 @@ module.exports = {
                                         minimalNode = route[i];
                                         minimalNodeIndex = i;
                                         minimalFrom ="ROUTE BETWEEN"; 
-                                        console.log("min package:"+minimalPackage+"with dist"+minimalDistance+"with method:"+minimalFrom);
                                     }
                                 }
                             }
@@ -220,17 +214,149 @@ module.exports = {
                     }
                 }
                 tmp = tmptemp;
-                console.log("new tmp:" + tmp);
-                console.log(route_list);
-            }
-            
-            console.log(key, this.package_priority_object[key]);
-            
+            }  
         }
         
         callback();
-    }
+    },
+    drop_multiple_roads: function(self,callback){
+        for(var i = 0; i < (route_list.length-1); i++){
+            for(var j = i+1; j < (route_list.length); j++){
+                var routeString = route_list[i].toString();
+                var subrouteString = route_list[j].toString();
+                if(routeString.includes(subrouteString))
+                    route_list.splice(j,1);
+            }
+        }
+        callback();
+    },
+    join_roads: function(self,callback){
+        var notSame = true;
+        while(notSame){ 
+        prev_route_length = route_list.length;
+        for(var i = 0; i < (route_list.length-1); i++){
+            for(var j = i+1; j < (route_list.length); j++){
+                var last_of_first_route = route_list[i][route_list[i].length-1];
+                var first_of_second_route = route_list[j][0];
+                if(last_of_first_route == first_of_second_route){
+                    route_list[i].push.apply(route_list[i],route_list[j].slice(1,route_list[j].length));
+                    route_list.splice(j,1);
+                }
+            }
+        }
+        (route_list);
+        if(prev_route_length == route_list.length)
+            notSame = false;
+        }
+        callback();
+    },
+    assign_truck:function(self,callback){
+        assign_list = [];
+        var tmp_truck_list = self.calculation_truck_list;
+        for(var i = 0; i < (route_list.length); i++){
+            var route_start = route_list[i][route_list[i].length-1];
+            var minimalTruckIndex = null;
+            for(var j = 0; j < (tmp_truck_list.length);j++){
+                if(route_start == tmp_truck_list[j].current_location){
+                    minimalTruckIndex = j;
+                }
+            }
+            if(minimalTruckIndex != null){
+                var assign = {};
+                assign[route_list[i]] = tmp_truck_list[minimalTruckIndex];
+                tmp_truck_list.splice(minimalTruckIndex,1);
+                assign_list.push(assign);    
+            }     
 
+        }
+        // IDE VALAMI FIX DE GYORSAN? NEM SZÁMOL TOVÁBB
+        for(var i = 0; i < (route_list.length); i++){
+            var notInAssignList = true;
+            for(var j = 0; j < assign_list.length; j++){
+                 if(assign_list[j][route_list[i]] != null)
+                    notInAssignList = false;
+            }
+            if(notInAssignList){
+                var route_start = route_list[i][route_list[i].length-1];
+                var minimalTruckIndex = null;
+                var minimalDistance = 999999999999999;
+                for(var j = 0; j < (tmp_truck_list.length);j++){
+                    var truck_dist= self.evaluate_distance(route_start,tmp_truck_list[j].current_location);
+                    if(minimalDistance >= truck_dist){
+                        minimalDistance = truck_dist;
+                        minimalTruckIndex = j;
+                    }     
+                } 
+                if(minimalTruckIndex != null){
+                    var assign = {};
+                    assign[route_list[i]] = tmp_truck_list[minimalTruckIndex];
+                    tmp_truck_list.splice(minimalTruckIndex,1);
+                    assign_list.push(assign);   
+                }
+            }
+        }
+        for(var i = 0; i < (route_list.length); i++){
+            var notInAssignList = true;
+            for(var j = 0; j < assign_list.length; j++){
+                 if(assign_list[j][route_list[i]] != null)
+                    notInAssignList = false;
+            }
+            if(notInAssignList && assign_list.length!=0){
+                var minimalTruckKey = null;
+                var minimalDistance = 999999999999999;
+                for(var j = 0; j < assign_list.length; j++){
+                    var key =  Object.keys(assign_list[j]);
+                    var tmp = key[0].split(',');
+                    var start = tmp[0];
+                    var end = route_list[i][route_list[i].length-1]
+                    var dist = self.evaluate_distance(start,end);
+                    if(minimalDistance >= dist){
+                        minimalDistance = dist;
+                        minimalTruckKey = j;
+                    }    
+                }
+                if(minimalTruckKey != null){
+                    var assign = {};
+                    assign[route_list[i]] = Object.values(assign_list[minimalTruckKey])[0];
+                    assign_list.push(assign);   
+                }
+            }
+        }
+        callback();
+    },
+    calc_truck_route: function(self,callback){
+        calc_list = [];
+        for(let j = 0; j < assign_list.length; j++){           
+            var assign_element = Object.values(assign_list[j])[0];
+            var assign_key = Object.keys(assign_list[j])[0];
+            var assign_not_happened = true;
+            for(let i = 0; i< calc_list.length; i++){
+                if(calc_list[i]._id == assign_element._id){
+                    calc_list[i].route = assign_key + "," + calc_list[i].route;
+                    assign_not_happened = false;
+                }     
+            }               
+            if(assign_not_happened){
+                //create new calc elem
+                var calc = {_id: assign_element._id, original_loc: assign_element.current_location, route: assign_key + "," + assign_element.current_location, final_destination: "", number_of_trip: 0, sum_trip:0 };
+                calc_list.push(calc);
+            }
+        }
+        
+        
+        calc_list.forEach(function(element){
+            var route_array = element.route.split(',');
+            element.final_destination = route_array[0];
+            var num = route_array.length;
+            element.number_of_trip = num;
+            var sum = 0;
+            for(var n = 0; n < num-1; n++){
+                sum += self.evaluate_distance(route_array[n],route_array[n+1]);
+            }
+            element.sum_trip = sum;
+        });
+        callback(calc_list);
+    }
 }
 //Storages: 
 // _id:
