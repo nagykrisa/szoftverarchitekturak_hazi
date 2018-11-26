@@ -6,7 +6,6 @@ var express = require('express'),
 	config = require('./config/index.js')(),
 	app = express(),
 	MongoClient = require('mongodb').MongoClient,
-	Admin = require('./controllers/Admin'),
 	Calculation = require('./controllers/Calculation_C'),
 	Package_Management = require('./controllers/Packages_C.js'),
 	Storage_Management = require('./controllers/Storages_C.js'),
@@ -39,9 +38,6 @@ MongoClient.connect(uri,{ useNewUrlParser: true }, function(err, client) {
 			req.db = client.db("Szallitmanyozas");
 			next();
 		};
-		app.all('/admin*', attachDB, function(req, res, next) {
-			Admin.run(req, res, next);
-		});
 		app.all('/packages', attachDB, function(req, res, next) {
 			Package_Management.run(req, res, next);
 		});	
@@ -62,7 +58,5 @@ MongoClient.connect(uri,{ useNewUrlParser: true }, function(err, client) {
 		});
 	}
 });
-//TODOOO
-///Style:todo ---> Navbar sajat style kitalalasa
-///           ---> Tickbox-ra valami fancy nézet
-///Calculation---> BackGomb?()
+
+
